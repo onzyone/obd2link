@@ -1,28 +1,38 @@
 import serial
 
 
-class obd2_connection():
-#    def __init__(self):
-#        self.serial_connection = serial.Serial(
-#            # assumes that you are hooked up to pi
-#            port = '/dev/ttyUSB0',
-#            baudrate = 115200,
-#            parity = serial.PARITY_NONE,
-#            stopbits = serial.STOPBITS_ONE,
-#            bytesize = serial.EIGHTBITS,
-#            rtscts = False,
-#            dsrdtr = False,
-#            xonxoff = False
-#        )
+class Obd2Connection():
+    def __init__(self):
+        self.parity = serial.PARITY_NONE
+        self.stopbits = serial.STOPBITS_ONE
+        self.bytesize = serial.EIGHTBITS
+        self.rtscts = False
+        self.dsrdtr = False
+        self.xonxoff = False
 
     def obd2_connection(self, *args, **kwargs):
+        self.port = kwargs.iteritems('port')
+        self.baudrate = kwargs.iteritems('baudrate')
+        self.parity = kwargs.iteritems('parity')
 
+        self.serial_connection = serial.Serial(
+            port=self.port,
+            bautrate=self.baudrate,
+            parity=self.parity,
+            stopbits=self.stopbits,
+            bytesize=self.bytesize,
+            rtscts=self.rtscts,
+            dsrdtr=self.dsrdtr,
+            xonxoff=self.xonxoff
+        )
 
-    def obd2_open(self):
-        self.serial_connection.open()
+        return self.serial_connection
 
-    def obd2_close(self):
-        self.serial_connection.close()
+    def obd2_open(self, serial_connection):
+        serial_connection.open()
 
-    def obd2_is_open(self):
-        self.serial_connection.isOpen()
+    def obd2_close(self, serial_connection):
+        serial_connection.close()
+
+    def obd2_is_open(self, serial_connection):
+        serial_connection.isOpen()
