@@ -1,4 +1,5 @@
 import obd2_connection
+import obd2_constents
 
 
 def get_connection():
@@ -11,10 +12,14 @@ def get_connection():
 
     return connection
 
+def get_constenst():
+    at_constents = obd2_constents.AT_CODES
+
+    print at_constents
+
 def main():
     connection = get_connection()
-    print connection
-
-
+    get_constenst()
+    
 if __name__ == '__main__':
     main()
