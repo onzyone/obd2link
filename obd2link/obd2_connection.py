@@ -15,8 +15,8 @@ class Obd2Connection():
         print 'in get_port'
 
     def obd2_connection(self, *args, **kwargs):
-        self.port = kwargs.iteritems('port')
-        self.baudrate = kwargs.iteritems('baudrate')
+        self.port = kwargs.pop('port')
+        self.baudrate = kwargs.pop('baudrate')
 #        self.parity = kwargs.iteritems('parity')
 
         self.serial_connection = serial.Serial(
