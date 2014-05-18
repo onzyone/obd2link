@@ -1,4 +1,5 @@
 import serial
+import time
 
 
 class Obd2Connection():
@@ -40,3 +41,21 @@ class Obd2Connection():
 
     def obd2_is_open(self, serial_connection):
         serial_connection.isOpen()
+
+    def obd2_write(self, serial_connection, in_put):
+
+        serial_connection.write(in_put + '\r\n')
+
+    def obd2_read(self, serial_connection):
+
+        out_put = ''
+
+       # let's wait one second before reading output (let's give device time to answer)
+        time.sleep(1)
+        while serial_connection.inWaiting() > 0:
+            out_put += serial_connection.read(1)
+
+        if out_put != '':
+            return out_put
+        else:
+            return 'no output' # put exception in here

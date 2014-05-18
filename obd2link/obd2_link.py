@@ -17,8 +17,17 @@ def get_constants():
 
     print at_constants
 
+def get_version(connection):
+
+    conn = obd2_connection.Obd2Connection()
+    conn.obd2_write(connection, 'ATI')
+    read = conn.obd2_read(connection)
+
+    print read
+
 def main():
     connection = get_connection()
+    get_version(connection)
     get_constants()
 
 if __name__ == '__main__':
