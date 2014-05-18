@@ -13,9 +13,9 @@ def get_connection():
     return connection
 
 def get_constants():
-    at_constants = obd2_constants.AT_CODES
-
-    print at_constants
+    at_constants = obd2_constants.CONSTANTS
+    for each in at_constants:
+        print each
 
 def get_version(connection):
 
