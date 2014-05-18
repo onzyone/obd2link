@@ -10,10 +10,14 @@ class Obd2Connection():
         self.dsrdtr = False
         self.xonxoff = False
 
+    def get_port(self):
+        #check the OS for FTDI USB Serial Device converter now attached to ttyUSB0
+        print 'in get_port'
+
     def obd2_connection(self, *args, **kwargs):
         self.port = kwargs.iteritems('port')
         self.baudrate = kwargs.iteritems('baudrate')
-        self.parity = kwargs.iteritems('parity')
+#        self.parity = kwargs.iteritems('parity')
 
         self.serial_connection = serial.Serial(
             port=self.port,
