@@ -21,7 +21,7 @@ class Obd2Connection():
 
         self.serial_connection = serial.Serial(
             port=self.port,
-            bautrate=self.baudrate,
+            baudrate=self.baudrate,
             parity=self.parity,
             stopbits=self.stopbits,
             bytesize=self.bytesize,
