@@ -1,5 +1,6 @@
 import obd2_connection
 import obd2_constants
+import time
 
 
 def get_connection():
@@ -27,9 +28,39 @@ def get_version(connection):
 
     print read
 
+def odb2_innitialize(connection):
+
+    count = 0
+    conn = obd2_connection.Obd2Connection()
+    conn.obd2_write(connection, 'atz')
+
+    #echo off
+    conn.obd2_write(connection, 'ate0')
+    conn.obd2_write(connection, '0100')
+    ready = conn.obd2_read()
+
+    print "what is ready looking like today?" + ready
+
+    if ready == "BUSINIT: ...OK":
+        ready = conn.obd2_read()
+        print "0100 response2: " + ready
+        return None
+    else:
+        #ready=ready[-5:] #Expecting error message: BUSINIT:.ERROR (parse last 5 chars)
+        time.sleep(5)
+        if count == 5:
+            ready = conn.obd2_read()
+            print "0100 response2: " + ready + " closing time"
+            conn.obd2_close()
+            return None
+        else:
+            count = count + 1
+
+
 def main():
     connection = get_connection()
     get_version(connection)
+    odb2_innitialize(connection)
     get_constants()
 
 if __name__ == '__main__':

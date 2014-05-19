@@ -34,35 +34,7 @@ class Obd2Connection():
         return self.serial_connection
 
     def obd2_open(self, serial_connection):
-
-        count = 0
         serial_connection.open()
-
-        # initialize
-        self.obd2_write("atz")
-
-        #echo off
-        self.obd2_write("ate0")
-        self.obd2_write("0100")
-        ready = self.obd2_read()
-
-        print "what is ready looking like today?" + ready
-
-        if ready == "BUSINIT: ...OK":
-            ready = self.obd2_read()
-            print "0100 response2: " + ready
-            return None
-        else:
-            #ready=ready[-5:] #Expecting error message: BUSINIT:.ERROR (parse last 5 chars)
-            time.sleep(5)
-            if count == 5:
-                ready = self.obd2_read()
-                print "0100 response2: " + ready + " closing time"
-                self.obd2_close()
-                return None
-            else:
-                count = count + 1
-
 
     def obd2_close(self, serial_connection):
         serial_connection.close()
