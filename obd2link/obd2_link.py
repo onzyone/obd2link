@@ -17,6 +17,8 @@ def get_constants():
     for each in at_constants:
         print each
 
+#def get_
+
 def get_version(connection):
 
     conn = obd2_connection.Obd2Connection()
