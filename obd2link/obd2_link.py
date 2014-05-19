@@ -30,7 +30,7 @@ def get_version(connection):
     conn.obd2_write(connection, 'ATI')
     read = conn.obd2_read(connection)
 
-    print read
+    print 'read after ATI: ' + read
 
 def odb2_innitialize(connection):
 
@@ -39,11 +39,23 @@ def odb2_innitialize(connection):
     conn.obd2_close(connection)
     conn.obd2_open(connection)
 
-    conn.obd2_write(connection, 'atz')
+    conn.obd2_write(connection, 'ATZ')
+    read = conn.obd2_read(connection)
+
+    print 'read after ATZ: ' + read
 
     #echo off
-    conn.obd2_write(connection, 'ate0')
+    conn.obd2_write(connection, 'ATE0')
+    read = conn.obd2_read(connection)
+
+    print 'read after ATE0: ' + read
+
     conn.obd2_write(connection, '0100')
+
+    read = conn.obd2_read(connection)
+
+    print 'read after 0100: ' + read
+
     ready = conn.obd2_read(connection)
 
     print "what is ready looking like today?" + ready
