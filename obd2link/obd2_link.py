@@ -37,21 +37,21 @@ def odb2_innitialize(connection):
     #echo off
     conn.obd2_write(connection, 'ate0')
     conn.obd2_write(connection, '0100')
-    ready = conn.obd2_read()
+    ready = conn.obd2_read(connection)
 
     print "what is ready looking like today?" + ready
 
     if ready == "BUSINIT: ...OK":
-        ready = conn.obd2_read()
+        ready = conn.obd2_read(connection)
         print "0100 response2: " + ready
         return None
     else:
         #ready=ready[-5:] #Expecting error message: BUSINIT:.ERROR (parse last 5 chars)
         time.sleep(5)
         if count == 5:
-            ready = conn.obd2_read()
+            ready = conn.obd2_read(connection)
             print "0100 response2: " + ready + " closing time"
-            conn.obd2_close()
+            conn.obd2_close(connection)
             return None
         else:
             count = count + 1
