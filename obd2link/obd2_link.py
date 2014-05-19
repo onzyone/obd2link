@@ -25,13 +25,12 @@ def get_version(connection):
     conn = obd2_connection.Obd2Connection()
     conn.obd2_close(connection)
     conn.obd2_open(connection)
+    conn.obd2_is_open(connection)
 
-    if conn.obd2_is_open(connection):
+    conn.obd2_write(connection, 'ATI')
+    read = conn.obd2_read(connection)
 
-        conn.obd2_write(connection, 'ATI')
-        read = conn.obd2_read(connection)
-
-        print read
+    print read
 
 def odb2_innitialize(connection):
 
@@ -40,31 +39,29 @@ def odb2_innitialize(connection):
     conn.obd2_close(connection)
     conn.obd2_open(connection)
 
-    if conn.obd2_is_open(connection):
+    conn.obd2_write(connection, 'atz')
 
-        conn.obd2_write(connection, 'atz')
+    #echo off
+    conn.obd2_write(connection, 'ate0')
+    conn.obd2_write(connection, '0100')
+    ready = conn.obd2_read(connection)
 
-        #echo off
-        conn.obd2_write(connection, 'ate0')
-        conn.obd2_write(connection, '0100')
+    print "what is ready looking like today?" + ready
+
+    if ready == "BUSINIT: ...OK":
         ready = conn.obd2_read(connection)
-
-        print "what is ready looking like today?" + ready
-
-        if ready == "BUSINIT: ...OK":
+        print "0100 response2: " + ready
+        return None
+    else:
+        #ready=ready[-5:] #Expecting error message: BUSINIT:.ERROR (parse last 5 chars)
+        time.sleep(5)
+        if count == 5:
             ready = conn.obd2_read(connection)
-            print "0100 response2: " + ready
+            print "0100 response2: " + ready + " closing time"
+            conn.obd2_close(connection)
             return None
         else:
-            #ready=ready[-5:] #Expecting error message: BUSINIT:.ERROR (parse last 5 chars)
-            time.sleep(5)
-            if count == 5:
-                ready = conn.obd2_read(connection)
-                print "0100 response2: " + ready + " closing time"
-                conn.obd2_close(connection)
-                return None
-            else:
-                count = count + 1
+            count = count + 1
 
 
 def main():
