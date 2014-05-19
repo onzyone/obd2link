@@ -81,10 +81,9 @@ class Obd2Connection():
 
     def obd2_write(self, serial_connection, in_put):
 
-        if self.port:
-            self.port.flushOutput()
-            self.port.flushInput()
-            serial_connection.write(in_put + '\r\n')
+        serial_connection.flushOutput()
+        serial_connection.flushInput()
+        serial_connection.write(in_put + '\r\n')
 
     def obd2_read(self, serial_connection):
 
