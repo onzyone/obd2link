@@ -34,43 +34,32 @@ class Obd2Connection():
         return self.serial_connection
 
     def obd2_open(self, serial_connection):
+
         serial_connection.open()
 
-        count = 0
+        # initialize
+        self.obd2_write("atz")
 
-        #until error is returned try to connect
-        while 1:
-            # initialize
-            self.obd2_write("atz")
+        #echo off
+        self.obd2_write("ate0")
+        self.obd2_write("0100")
+        ready = self.obd2_read()
 
-            #try:
-            #    self.obd2_write("atz")   # initialize
-            #except serial.SerialException:
-            #    self.State = 0
-            #return None
-
-            #echo off
-            self.obd2_write("ate0")
-            self.obd2_write("0100")
-            ready = self.obd2_read()
-
-            print ready
+        print ready
 
         if ready == "BUSINIT: ...OK":
             ready = self.obd2_read()
             print "0100 response2: " + ready
             return None
         else:
-            #ready=ready[-5:] #Expecting error message: BUSINIT:.ERROR (parse last 5 chars)
             time.sleep(5)
             if count == 5:
-            #if count == RECONNATTEMPTS:
+                #if count == RECONNATTEMPTS:
                 ready = self.obd2_read()
                 print "0100 response2: " + ready + " closing time"
                 self.obd2_close()
-                #self.State = 0
-            return None
-        count=count+1
+            #self.State = 0
+                return None
 
 
     def obd2_close(self, serial_connection):
