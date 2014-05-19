@@ -35,6 +35,7 @@ class Obd2Connection():
 
     def obd2_open(self, serial_connection):
 
+        count = 0
         serial_connection.open()
 
         # initialize
@@ -45,21 +46,22 @@ class Obd2Connection():
         self.obd2_write("0100")
         ready = self.obd2_read()
 
-        print ready
+        print "what is ready looking like today?" + ready
 
         if ready == "BUSINIT: ...OK":
             ready = self.obd2_read()
             print "0100 response2: " + ready
             return None
         else:
+            #ready=ready[-5:] #Expecting error message: BUSINIT:.ERROR (parse last 5 chars)
             time.sleep(5)
             if count == 5:
-                #if count == RECONNATTEMPTS:
                 ready = self.obd2_read()
                 print "0100 response2: " + ready + " closing time"
                 self.obd2_close()
-            #self.State = 0
                 return None
+            else:
+                count = count + 1
 
 
     def obd2_close(self, serial_connection):
