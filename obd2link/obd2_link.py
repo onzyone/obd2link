@@ -50,31 +50,32 @@ def odb2_innitialize(connection):
 
     print 'read after ATE0: ' + read
 
+    conn.obd2_write(connection, 'ATDP')
+    read = conn.obd2_read(connection)
+
+    print 'read after ATDP: ' + read
+
+
     conn.obd2_write(connection, '0100')
 
     read = conn.obd2_read(connection)
 
     print 'read after 0100: ' + read
 
-    ready = conn.obd2_read(connection)
 
-    print "what is ready looking like today?" + ready
-
-    if ready == "BUSINIT: ...OK":
-        ready = conn.obd2_read(connection)
-        print "0100 response2: " + ready
+# this is dumb ... it is not going to work ... will have to fix it once I get to "work" =)
+    if read == "BUSINIT: ...OK":
+        print "0100 response2: " + read
         return None
+
     else:
-        #ready=ready[-5:] #Expecting error message: BUSINIT:.ERROR (parse last 5 chars)
         time.sleep(5)
-        if count == 5:
+        count = count + 1
+        if count == 6:
             ready = conn.obd2_read(connection)
             print "0100 response2: " + ready + " closing time"
             conn.obd2_close(connection)
             return None
-        else:
-            count = count + 1
-
 
 def main():
     connection = get_connection()
