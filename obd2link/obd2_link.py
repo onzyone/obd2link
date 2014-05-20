@@ -60,6 +60,7 @@ def odb2_innitialize(connection):
 
     conn.obd2_write(connection, '0100')
 
+    time.sleep(5)
     read = conn.obd2_read(connection)
 
     print 'read after 0100: ' + read
