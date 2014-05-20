@@ -58,12 +58,18 @@ def odb2_innitialize(connection):
     print 'read after ATDP: ' + read
 
 
+    #Sensor("          Supported PIDs", "0100", hex_to_bitstring  ,""       ),
     conn.obd2_write(connection, '0100')
-
     time.sleep(5)
     read = conn.obd2_read(connection)
-
     print 'read after 0100: ' + read
+
+    #Sensor("     Coolant Temperature", "0105", temp              ,"C"      ),
+    conn.obd2_write(connection, '0105')
+    time.sleep(5)
+    read = conn.obd2_read(connection)
+    print 'read after 0105: ' + read
+
 
 def main():
     connection = get_connection()
