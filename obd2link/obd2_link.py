@@ -52,7 +52,6 @@ def odb2_innitialize(connection):
 
     print 'read after ATE0: ' + read
 
-
     conn.obd2_write(connection, 'ATDP')
     read = conn.obd2_read(connection)
 
@@ -64,7 +63,6 @@ def odb2_innitialize(connection):
     read = conn.obd2_read(connection)
 
     print 'read after 0100: ' + read
-
 
 def main():
     connection = get_connection()
