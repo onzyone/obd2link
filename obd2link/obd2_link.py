@@ -2,7 +2,7 @@ import obd2_connection
 import obd2_constants
 import time
 
-
+import file_io
 
 
 def get_connection():
@@ -22,6 +22,8 @@ def get_constants():
 
 def get_sensors(connection):
 
+    temp_dict = {}
+
     conn = obd2_connection.Obd2Connection()
     conn.obd2_close(connection)
     conn.obd2_open(connection)
@@ -33,10 +35,13 @@ def get_sensors(connection):
             if key == 'hex':
                 conn.obd2_write(connection, value)
                 read = conn.obd2_read(connection)
-                print read
-
+                temp_dict.update(key, read)
+                print 'after reading bus: ' + read
             else:
                 print key, value
+
+    print temp_dict
+    file_io.write_csv(temp_dict)
 
 def get_version(connection):
 

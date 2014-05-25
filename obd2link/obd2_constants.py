@@ -1,4 +1,3 @@
-
 CONSTANTS = { 'AT_CODES' : {'I' : 'version ID',
                             'DP' : 'display protocol',
                             'SP' : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}},
@@ -8,8 +7,8 @@ CONSTANTS = { 'AT_CODES' : {'I' : 'version ID',
                             'SN' : 'device serial number'}}
 
 SENSORS = { 0: {'hex': '010C', 'description': 'Engine RPM (RPM)', 'measurement': 'rpm'},
-            1: {'hex': '0106', 'description': 'Short Term Fuel Trim', 'measurement': 'rpm'},
-            2: {'hex': '0107', 'description': 'Long Term Fuel Trim', 'measurement': 'rpm'},
+            1: {'hex': '0106', 'description': 'Short Term Fuel Trim', 'measurement': '%'},
+            2: {'hex': '0107', 'description': 'Long Term Fuel Trim', 'measurement': '%'},
             3: {'hex': '0110', 'description': 'Mass air flow rate (g/s) -(Air Flow Rate lb/min)', 'measurement': 'lb/min'},
             }
 
