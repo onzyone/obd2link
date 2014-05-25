@@ -3,6 +3,8 @@ import obd2_constants
 import time
 
 
+
+
 def get_connection():
 
     port = '/dev/ttyUSB0' # this will need to be taken care of by a get call later on
@@ -15,14 +17,26 @@ def get_connection():
 
 def get_constants():
     constants = obd2_constants.CONSTANTS
-    for each in constants:
-        print each
+    for key, value in constants.items():
+        print key, value
 
-def get_sensors():
+def get_sensors(connection):
+
+    conn = obd2_connection.Obd2Connection()
+    conn.obd2_close(connection)
+    conn.obd2_open(connection)
+
     sensors = obd2_constants.SENSORS
-    for each in sensors:
-        for more in each:
-            print more
+    for key, value in sensors.items():
+#        print k, v
+        for key, value in value.items():
+            if key == 'hex':
+                conn.obd2_write(connection, value)
+                read = conn.obd2_read(connection)
+                print read
+
+            else:
+                print key, value
 
 def get_version(connection):
 
@@ -85,7 +99,7 @@ def main():
     #get_version(connection)
     odb2_innitialize(connection)
     #get_constants()
-    get_sensors()
+    get_sensors(connection)
 
 if __name__ == '__main__':
     main()
