@@ -7,6 +7,11 @@ CONSTANTS = { 'AT_CODES' : {'I' : 'version ID',
                             'MFR' : 'device manufacturer ID',
                             'SN' : 'device serial number'}}
 
+SENSORS = { 0: {'HEX': '010C', 'description': 'Engine RPM (RPM)', 'measurement': 'rpm'},
+            1: {'HEX': '0106', 'description': 'Short Term Fuel Trim', 'measurement': 'rpm'},
+            2: {'HEX': '0107', 'description': 'Long Term Fuel Trim', 'measurement': 'rpm'},
+            3: {'HEX': '0110', 'description': 'Mass air flow rate (g/s) -(Air Flow Rate lb/min)', 'measurement': 'lb/min'},
+            }
 
 #ATSP
 

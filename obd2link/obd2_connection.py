@@ -53,12 +53,21 @@ class Obd2Connection():
         out_put = ''
 
        # let's wait one second before reading output (let's give device time to answer)
-        time.sleep(1)
-        while serial_connection.inWaiting() > 0:
-            out_put += serial_connection.read(1)
+        time.sleep(0.1)
+        while 1:
+            char = serial_connection.read(1)
+            if char == '\r' and len(out_put) > 0:
+                break
+            else:
+                # if there is something in the buffer this will add it all up
+                if (out_put != '' or char != '>') :
+                    out_put = out_put + char
+        return out_put
+#        while serial_connection.inWaiting() > 0:
+#            out_put += serial_connection.read(1)
 
-        if out_put != '':
-            return out_put
-        else:
-            return 'no output' # put exception in here
+#        if out_put != '':
+#            return out_put
+#        else:
+#            return 'no output' # put exception in here
 
