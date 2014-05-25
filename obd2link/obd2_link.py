@@ -35,7 +35,7 @@ def get_sensors(connection):
             if key == 'hex':
                 conn.obd2_write(connection, value)
                 read = conn.obd2_read(connection)
-                temp_dict.update(key, read)
+                temp_dict.update({key: read})
                 print 'after reading bus: ' + read
             else:
                 print key, value

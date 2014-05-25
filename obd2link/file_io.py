@@ -8,3 +8,7 @@ def write_csv(some_dict):
         w = csv.DictWriter(f, some_dict.keys())
         w.writeheader()
         w.writerow(some_dict)
+
+def read_yaml():
+    print 'will be used to read yaml config, logging etc files'
+
