@@ -21,7 +21,8 @@ def get_constants():
 def get_sensors():
     sensors = obd2_constants.SENSORS
     for each in sensors:
-        print each
+        for more in each:
+            print more
 
 def get_version(connection):
 
