@@ -1,7 +1,7 @@
 import obd2_connection
 import obd2_constants
 import time
-import datetime
+from datetime import datetime
 
 
 import file_io
@@ -24,7 +24,7 @@ def get_constants():
 
 def get_sensors(connection):
 
-    temp_dict = {'time stamp': datetime.datetime.now()}
+    temp_dict = {'time stamp': str(datetime.now())}
 
     conn = obd2_connection.Obd2Connection()
     conn.obd2_close(connection)
