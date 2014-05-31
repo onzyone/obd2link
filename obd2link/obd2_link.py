@@ -3,7 +3,7 @@ from datetime import datetime
 
 import obd2_connection
 import obd2_constants
-from obd2link.core import file_io
+import core.file_io as file_io
 
 
 def get_connection():
