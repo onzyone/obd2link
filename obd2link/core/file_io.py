@@ -1,0 +1,79 @@
+import csv
+import os
+import sys
+import ConfigParser
+
+from yaml import load
+
+from obd2link.core import dict_helper
+
+
+class PropertiesHelper:
+
+    #TODO add folder location
+    def write_csv(self, some_dict):
+
+        dh = dict_helper.DictHelper()
+        dh.sort_dict(some_dict)
+
+        #TODO file name should be vin+epoc
+        with open('/tmp/mycsvfile.csv', 'wb') as f:
+            self.w = csv.DictWriter(f, some_dict.keys())
+            #TODO if there is a header append to the bottom of the file
+            self.w.writeheader()
+            self.w.writerow(some_dict)
+
+    def get_yaml_config(self, *args, **kwargs):
+
+        # change it to take filename with path
+        self.default_config_file = kwargs.get('default_config_file', None)
+        self.use_override = kwargs.get('use_override', False)
+        self.use_full_path = kwargs.get('use_full_path', False)
+        self.filename = kwargs.get('filename', None)
+
+        try:
+            if not self.default_config_file:
+                default_config_path, filename  = os.path.split(os.path.abspath(__file__))
+                default_config_file = os.path.join(default_config_path, 'config', self.filename)
+            conf_file = None
+            # override
+            if self.use_override and os.path.exists(os.path.join(os.getenv("HOME"), 'config', self.filename)):
+                conf_file = os.path.join(os.getenv("HOME"), 'config', self.filename)
+            elif self.use_full_path and os.path.exists(self.filename):
+                conf_file = self.filename
+            elif default_config_file is not None and os.path.exists(default_config_file):
+                conf_file = default_config_file
+            if conf_file is not None:
+                config = load(open(conf_file, 'r'))
+            return config
+        except:
+            print "Error loading yaml config: ", sys.exc_info()[0]
+            raise
+
+    def get_configparser_config(self, *args, **kwargs):
+
+        # change it to take filename with path
+        self.filename = kwargs.get('filename', None)
+        self.use_override = kwargs.get('use_override', False)
+        self.use_full_path = kwargs.get('use_full_path', False)
+        self.section = kwargs.get('section', None)
+
+        try:
+            if not self.default_config_file:
+                default_config_file = os.path.join(__file__[:__file__.rfind('lib')], 'config', self.filename)
+            conf_file = None
+            # override
+            if self.use_override and os.path.exists(os.path.join(os.getenv("HOME"), 'config', self.filename)):
+                conf_file = os.path.join(os.getenv("HOME"), 'config', self.filename)
+            elif self.use_full_path and os.path.exists(self.filename):
+                conf_file = self.filename
+            elif default_config_file is not None and os.path.exists(default_config_file):
+                conf_file = default_config_file
+            if conf_file is not None:
+                config = ConfigParser.SafeConfigParser()
+                config.read(self.propertiesFile)
+                propertiesDict = dict(config._sections[self.section], raw=True)
+            return propertiesDict
+        except:
+            print "Error loading configparser config: ", sys.exc_info()[0]
+            raise

@@ -1,15 +1,16 @@
-import obd2_connection
-import obd2_constants
 import time
 from datetime import datetime
 
-
-import file_io
+import obd2_connection
+import obd2_constants
+from obd2link.core import file_io
 
 
 def get_connection():
 
-    port = '/dev/ttyUSB0' # this will need to be taken care of by a get call later on
+
+# this will need to be taken care of by a get call later on
+    port = '/dev/ttyUSB0'
     baudrate = 115200
 
     conn = obd2_connection.Obd2Connection()
@@ -59,6 +60,8 @@ def get_version(connection):
 
 def odb2_innitialize(connection):
 
+
+    # this is still in prototype stage too.
     count = 0
     conn = obd2_connection.Obd2Connection()
     conn.obd2_close(connection)
