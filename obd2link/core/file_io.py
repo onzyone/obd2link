@@ -5,7 +5,7 @@ import ConfigParser
 
 from yaml import load
 
-import obd2link.core.dict_helper as dict_helper
+import core.dict_helper as dict_helper
 
 
 class PropertiesHelper:

@@ -32,6 +32,7 @@ def get_sensors(connection):
     conn.obd2_open(connection)
 
     sensors = obd2_constants.SENSORS
+    ph = file_io.PropertiesHelper()
     for key, value in sensors.items():
 #        print k, v
         for key, value in value.items():
@@ -44,7 +45,7 @@ def get_sensors(connection):
                 print key, value
 
     print temp_dict
-    file_io.write_csv(temp_dict)
+    ph.write_csv(temp_dict)
 
 def get_version(connection):
 
