@@ -4,10 +4,10 @@ from datetime import datetime
 import obd2_connection
 import obd2_constants
 import core.file_io as file_io
+import accelerometer.adxl345 as accelerometer
 
 
 def get_connection():
-
 
 # this will need to be taken care of by a get call later on
     port = '/dev/ttyUSB0'
@@ -102,7 +102,15 @@ def odb2_innitialize(connection):
     # where 41 05 is the header and 79 is the hex value
     print 'read after 0105: ' + read
 
+def get_acc_axes():
 
+    acc = accelerometer.ADXL345()
+    axes = acc.getAxes(True)
+
+    print "ADXL345 on address 0x%x:" % (acc.address)
+    print "   x = %.3fG" % ( axes['x'] )
+    print "   y = %.3fG" % ( axes['y'] )
+    print "   z = %.3fG" % ( axes['z'] )
 
 def main():
     connection = get_connection()
@@ -110,6 +118,7 @@ def main():
     odb2_innitialize(connection)
     #get_constants()
     get_sensors(connection)
+    get_acc_axes()
 
 if __name__ == '__main__':
     main()

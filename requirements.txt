@@ -1,2 +1,7 @@
 pyserial==2.7
 wsgiref==0.1.2
+pyyaml==3.11
+ipython=2.1.0
+pyzmq=14.3
+jinja2=2.7.2
+tornado=3.2.1
