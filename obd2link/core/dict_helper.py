@@ -45,4 +45,4 @@ class DictHelper:
 
     def sort_dict(self, any_dict):
         self.logger.debug('In Sort_dict: {0}'.format(any_dict))
-        any_dict = OrderedDict(sorted(any_dict.items(), key=lambda t: t[0]))
+        return OrderedDict(sorted(any_dict.items(), key=lambda t: t[0]))
