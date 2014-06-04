@@ -1,5 +1,4 @@
 import time
-from datetime import datetime
 
 import core.file_io as file_io
 import core.dict_helper as dict_helper
@@ -127,9 +126,9 @@ class Obd2Link():
 
     def main(self):
 
-
+        now = time.time()
         #this has to be moved to a global variable
-        self.temp_dict = {'A_Time_Stamp': str(datetime.now())}
+        self.temp_dict = {'now': str(now)}
 
         #get_version(connection)
         self.innitialize()
@@ -143,7 +142,7 @@ class Obd2Link():
         #print sorted_temp_dict
 
         #TODO file name should be vin+epoc
-        file_location = '/tmp/some_csv.csv'
+        file_location = '/tmp/soon_to_be_inv_{0}.csv'.format(now)
         self.ph.write_csv(sorted_temp_dict, file_location)
 
 
