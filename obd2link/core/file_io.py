@@ -11,13 +11,12 @@ import core.dict_helper as dict_helper
 class PropertiesHelper:
 
     #TODO add folder location
-    def write_csv(self, some_dict):
+    def write_csv(self, some_dict, file_location):
 
         dh = dict_helper.DictHelper()
         dh.sort_dict(some_dict)
 
-        #TODO file name should be vin+epoc
-        with open('/tmp/mycsvfile.csv', 'wb') as f:
+        with open(file_location, 'wb') as f:
             self.w = csv.DictWriter(f, some_dict.keys())
             #TODO if there is a header append to the bottom of the file
             self.w.writeheader()

@@ -139,9 +139,12 @@ class Obd2Link():
 
 
         print self.temp_dict
-        self.temp_dict = self.dh.sort_dict(self.temp_dict)
-        print self.temp_dict
-        self.ph.write_csv(self.temp_dict)
+        sorted_temp_dict = self.dh.sort_dict(self.temp_dict)
+        print sorted_temp_dict
+
+        #TODO file name should be vin+epoc
+        file_location = '/tmp/some_csv.csv'
+        self.ph.write_csv(self.sorted_temp_dict, file_location)
 
 
 if __name__ == '__main__':
