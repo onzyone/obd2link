@@ -117,9 +117,9 @@ class Obd2Link():
 
 
         axes = self.acc.getAxes(True)
-        self.ph.update_dict(self.temp_dict, 'acc_x', axes['x'])
-        self.ph.update_dict(self.temp_dict, 'acc_y', axes['y'])
-        self.ph.update_dict(self.temp_dict, 'acc_z', axes['z'])
+        self.dh.update_dict(self.temp_dict, 'acc_x', axes['x'])
+        self.dh.update_dict(self.temp_dict, 'acc_y', axes['y'])
+        self.dh.update_dict(self.temp_dict, 'acc_z', axes['z'])
 
         print "ADXL345 on address 0x%x:" % (self.acc.address)
         print "   x = %.3fG" % ( axes['x'] )
