@@ -63,11 +63,3 @@ class Obd2Connection():
                 if (out_put != '' or char != '>') :
                     out_put = out_put + char
         return out_put
-#        while serial_connection.inWaiting() > 0:
-#            out_put += serial_connection.read(1)
-
-#        if out_put != '':
-#            return out_put
-#        else:
-#            return 'no output' # put exception in here
-

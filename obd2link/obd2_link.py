@@ -11,10 +11,22 @@ import obd2.obd2_constants as obd2_constants
 class Obd2Link():
 
     def __init__(self):
+
+        #usb connection to mxlink
         self.connection = self.get_connection()
+
+        # obd2 connection
         self.conn = obd2_connection.Obd2Connection()
+
+        self.acc = accelerometer.ADXL345()
         self.ph = file_io.PropertiesHelper()
         self.dh = dict_helper.DictHelper()
+
+
+
+        self.SENSORS = obd2_constants.SENSORS
+
+
 
     def get_connection(self):
 
@@ -34,29 +46,19 @@ class Obd2Link():
 
     def get_sensors(self):
 
-        temp_dict = {'time stamp': str(datetime.now())}
-
         self.conn.obd2_close(self.connection)
         self.conn.obd2_open(self.connection)
 
-        sensors = obd2_constants.SENSORS
-
-        for key, value in sensors.items():
+        for key, value in self.SENSORS.items():
     #        print k, v
             for key, value in value.items():
                 if key == 'hex':
                     self.conn.obd2_write(self.connection, value)
                     read = self.conn.obd2_read(self.connection)
-                    temp_dict.update({value: read})
+                    self.temp_dict.update({value: read})
                     print 'after reading bus: ' + read
                 else:
                     print key, value
-
-
-        self.dh.sort_dict(temp_dict)
-        print temp_dict
-
-        self.ph.write_csv(temp_dict)
 
     def get_version(self):
 
@@ -113,21 +115,36 @@ class Obd2Link():
 
     def get_acc_axes(self):
 
-        acc = accelerometer.ADXL345()
-        axes = acc.getAxes(True)
 
-        print "ADXL345 on address 0x%x:" % (acc.address)
+        axes = self.acc.getAxes(True)
+        self.ph.update_dict(self.temp_dict, 'acc_x', axes['x'])
+        self.ph.update_dict(self.temp_dict, 'acc_y', axes['y'])
+        self.ph.update_dict(self.temp_dict, 'acc_z', axes['z'])
+
+        print "ADXL345 on address 0x%x:" % (self.acc.address)
         print "   x = %.3fG" % ( axes['x'] )
         print "   y = %.3fG" % ( axes['y'] )
         print "   z = %.3fG" % ( axes['z'] )
 
     def main(self):
 
+
+        #this has to be moved to a global variable
+        self.temp_dict = {'time stamp': str(datetime.now())}
+
+
+
         #get_version(connection)
         self.innitialize()
         #get_constants()
         self.get_sensors()
         self.get_acc_axes()
+
+
+        self.temp_dict = self.dh.sort_dict(self.temp_dict)
+        print self.temp_dict
+        self.ph.write_csv(self.temp_dict)
+
 
 if __name__ == '__main__':
     Obd2Link().main()
