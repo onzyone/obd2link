@@ -56,7 +56,7 @@ class Obd2Link():
                     self.conn.obd2_write(self.connection, value)
                     read = self.conn.obd2_read(self.connection)
                     self.temp_dict.update({value: read})
-                    print 'after reading bus: ' + read
+                    print 'value of {0} after reading bus: {1}'.format(key, read)
                 else:
                     print key, value
 
@@ -117,11 +117,10 @@ class Obd2Link():
 
 
         axes = self.acc.getAxes(True)
-        self.dh.update_dict(self.temp_dict, 'acc_x', axes['x'])
-        self.dh.update_dict(self.temp_dict, 'acc_y', axes['y'])
-        self.dh.update_dict(self.temp_dict, 'acc_z', axes['z'])
+        self.dh.update_dict(self.temp_dict, 'x_acc', axes['x'])
+        self.dh.update_dict(self.temp_dict, 'y_acc', axes['y'])
+        self.dh.update_dict(self.temp_dict, 'z_acc', axes['z'])
 
-        print "ADXL345 on address 0x%x:" % (self.acc.address)
         print "   x = %.3fG" % ( axes['x'] )
         print "   y = %.3fG" % ( axes['y'] )
         print "   z = %.3fG" % ( axes['z'] )
@@ -130,9 +129,7 @@ class Obd2Link():
 
 
         #this has to be moved to a global variable
-        self.temp_dict = {'time stamp': str(datetime.now())}
-
-
+        self.temp_dict = {'A_Time_Stamp': str(datetime.now())}
 
         #get_version(connection)
         self.innitialize()
