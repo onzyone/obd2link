@@ -138,6 +138,7 @@ class Obd2Link():
         self.get_acc_axes()
 
 
+        print self.temp_dict
         self.temp_dict = self.dh.sort_dict(self.temp_dict)
         print self.temp_dict
         self.ph.write_csv(self.temp_dict)
