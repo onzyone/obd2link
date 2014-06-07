@@ -132,7 +132,7 @@ class Obd2Link():
 
         #get configs
 
-        properties = self.ph.get_yaml_config(filename='application.properties')
+        properties = self.ph.get_yaml_config(filename='application.properties', use_override=True)
 
         print properties
 
