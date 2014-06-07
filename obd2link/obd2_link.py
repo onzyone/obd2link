@@ -1,4 +1,5 @@
 import time
+import os
 
 import core.file_io as file_io
 import core.dict_helper as dict_helper
@@ -134,8 +135,8 @@ class Obd2Link():
 
         obd2_config_home = '/home/pi/obd2link/obd2link/config'
 
-        self.properties = self.ph.get_yaml_config(filename=obd2_config_home + 'application.properties', use_full_path=True)
-        self.sensors = self.ph.get_yaml_config(filename=obd2_config_home + 'sensors.properties', use_full_path=True)
+        self.properties = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'application.properties'), use_full_path=True)
+        self.sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'sensors.properties'), use_full_path=True)
 
         print self.properties.get('output')
         print self.sensors
