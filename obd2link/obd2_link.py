@@ -70,7 +70,7 @@ class Obd2Link():
 
         print 'read after ATI: ' + read
 
-    def innitialize(self):
+    def obd2_innitialize(self):
 
 
         # this is still in prototype stage too.
@@ -130,8 +130,14 @@ class Obd2Link():
         #this has to be moved to a global variable
         self.temp_dict = {'now': str(now)}
 
+        #get configs
+
+        properties = self.ph.get_yaml_config(filename='application.properties')
+
+        print properties
+
         #get_version(connection)
-        self.innitialize()
+        self.obd2_innitialize()
         #get_constants()
         self.get_sensors()
         self.get_acc_axes()
@@ -142,7 +148,7 @@ class Obd2Link():
         #print sorted_temp_dict
 
         #TODO file name should be vin+epoc
-        file_location = '/tmp/soon_to_be_inv_{0}.csv'.format(now)
+        file_location = '/mnt/data/soon_to_be_vin_{0}.csv'.format(now)
         self.ph.write_csv(sorted_temp_dict, file_location)
 
 
