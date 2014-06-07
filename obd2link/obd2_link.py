@@ -22,17 +22,13 @@ class Obd2Link():
         self.ph = file_io.PropertiesHelper()
         self.dh = dict_helper.DictHelper()
 
-
-
         self.SENSORS = obd2_constants.SENSORS
-
 
 
     def get_connection(self):
 
-    # this will need to be taken care of by a get call later on
-        port = '/dev/ttyUSB0'
-        baudrate = 115200
+        port = self.properties.get('input').get('port')
+        baudrate = self.properties.get('input').get('baudrate')
 
         conn = obd2_connection.Obd2Connection()
         connection = conn.obd2_connection(port=port, baudrate=baudrate)
@@ -138,7 +134,6 @@ class Obd2Link():
         self.properties = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'application.properties'), use_full_path=True)
         self.sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'sensors.properties'), use_full_path=True)
 
-        print self.properties.get('output')
         print self.sensors
 
         #get_version(connection)
@@ -153,7 +148,7 @@ class Obd2Link():
         #print sorted_temp_dict
 
         #TODO file name should be vin+epoc
-        file_location = '/mnt/data/soon_to_be_vin_{0}.csv'.format(now)
+        file_location = os.path.join(self.properties.get('output').get('data_output_folder'), 'soon_to_be_vin_{0}.csv'.format(now))
         self.ph.write_csv(sorted_temp_dict, file_location)
 
 
