@@ -32,7 +32,7 @@ class PropertiesHelper:
 
         try:
             if not self.default_config_file:
-                default_config_path, filename  = os.path.split(os.path.abspath(__file__))
+                default_config_path, filename = os.path.split(os.path.abspath(__file__))
                 default_config_file = os.path.join(default_config_path, 'config', self.filename)
             conf_file = None
             # override
@@ -44,7 +44,7 @@ class PropertiesHelper:
                 conf_file = default_config_file
             if conf_file is not None:
                 config = load(open(conf_file, 'r'))
-            return config
+                return config
         except:
             print "Error loading yaml config: ", sys.exc_info()[0]
             raise
