@@ -55,7 +55,7 @@ class Obd2Link():
                     self.conn.obd2_write(self.connection, value)
                     read = self.conn.obd2_read(self.connection)
                     self.temp_dict.update({value: read})
-                    print 'value of {0} after reading bus: {1}'.format(key, read)
+                    print 'value of {0} after reading bus: {1}'.format(value, read)
                 else:
                     print key, value
 
@@ -132,9 +132,13 @@ class Obd2Link():
 
         #get configs
 
-        properties = self.ph.get_yaml_config(filename='/home/pi/obd2link/obd2link/config/application.properties', use_full_path=True)
+        obd2_config_home = '/home/pi/obd2link/obd2link/config'
 
-        print properties
+        self.properties = self.ph.get_yaml_config(filename=obd2_config_home + 'application.properties', use_full_path=True)
+        self.sensors = self.ph.get_yaml_config(filename=obd2_config_home + 'sensors.properties', use_full_path=True)
+
+        print self.properties.get('output')
+        print self.sensors
 
         #get_version(connection)
         self.obd2_innitialize()
