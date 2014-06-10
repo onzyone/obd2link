@@ -140,7 +140,7 @@ class Obd2Link():
 
 
 
-        self.ph.set_logger(logger_config)
+        self.ph.set_logger(self.logger_config)
         logger = logging.getLogger("obd2")
         logger.info('testing_122')
 
