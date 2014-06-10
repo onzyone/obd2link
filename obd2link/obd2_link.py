@@ -153,7 +153,7 @@ class Obd2Link():
         now = time.time()
         self.temp_dict = {'now': str(now)}
 
-        self.get_version()
+        self.get_obd2_version()
         self.make_human()
         #self.obd2_innitialize()
         #get_constants()
