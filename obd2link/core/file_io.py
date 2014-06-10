@@ -12,6 +12,11 @@ import sys
 
 class PropertiesHelper:
 
+    def check_folder(self, folder_path):
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+
+
     def set_logger(self, conf_file):
         try:
             if conf_file is not None:

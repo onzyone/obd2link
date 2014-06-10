@@ -15,8 +15,8 @@ def get_globals():
     logger_file = os.path.join(obd2_config_home, 'logger.properties')
     logger_config = ph.get_yaml_config(filename=logger_file, use_full_path=True)
 
-    print application_properties
-    print sensors
-    print logger_config
+    #print application_properties
+    #print sensors
+    #print logger_config
 
     return application_properties, sensors, logger_config

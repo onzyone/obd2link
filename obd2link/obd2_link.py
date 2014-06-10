@@ -154,13 +154,14 @@ class Obd2Link():
         #self.get_sensors()
         #self.get_acc_axes()
 
-
         #print self.temp_dict
         sorted_temp_dict = self.dh.sort_dict(self.temp_dict)
         #print sorted_temp_dict
 
-        #TODO file name should be vin+epoc
-        file_location = os.path.join(self.application_properties.get('output').get('data_output_folder'), 'soon_to_be_vin_{0}.csv'.format(now))
+        #TODO folder will be vin
+        folder_location = os.path.join(self.application_properties.get('output').get('data_output_folder'), 'vin')
+        self.ph.check_folder(folder_location)
+        file_location = os.path.join(folder_location, '{0}.csv'.format(now))
         self.ph.write_csv(sorted_temp_dict, file_location)
 
 
