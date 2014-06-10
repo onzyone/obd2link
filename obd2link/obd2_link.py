@@ -160,7 +160,7 @@ class Obd2Link():
         #print sorted_temp_dict
 
         #TODO file name should be vin+epoc
-        file_location = os.path.join(self.properties.get('output').get('data_output_folder'), 'soon_to_be_vin_{0}.csv'.format(now))
+        file_location = os.path.join(self.application_properties.get('output').get('data_output_folder'), 'soon_to_be_vin_{0}.csv'.format(now))
         self.ph.write_csv(sorted_temp_dict, file_location)
 
 
