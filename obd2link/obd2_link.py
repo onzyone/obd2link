@@ -5,6 +5,7 @@ import core.file_io as file_io
 import core.dict_helper as dict_helper
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
+from globals import *
 
 
 class Obd2Link():
@@ -24,8 +25,8 @@ class Obd2Link():
 
     def get_connection(self):
 
-        port = self.properties.get('input').get('port')
-        baudrate = self.properties.get('input').get('baudrate')
+        port = properties.get('input').get('port')
+        baudrate = properties.get('input').get('baudrate')
 
         conn = obd2_connection.Obd2Connection()
         connection = conn.obd2_connection(port=port, baudrate=baudrate)
@@ -54,12 +55,30 @@ class Obd2Link():
         self.conn.obd2_open(self.connection)
         self.conn.obd2_is_open(self.connection)
 
-        version_code = self.sensors.get('at').get('version')
+        version_code = sensors.get('at').get('version')
+        version2_code = sensors.get('at').get('version2')
+
+        print version_code
+        print version2_code
 
         self.conn.obd2_write(self.connection, 'ATI')
         read = self.conn.obd2_read(self.connection)
 
+        if read == None:
+
+            self.conn.obd2_write(self.connection, 'ATZ')
+            read = self.conn.obd2_read(self.connection)
+            print 'read after ATZ' + read
+
         print 'read after ATI: ' + read
+
+    def make_human(self):
+        self.conn.obd2_write(self.connection, 'ATL1')
+        self.conn.obd2_write(self.connection, 'ATH1')
+        self.conn.obd2_write(self.connection, 'ATS1')
+        self.conn.obd2_write(self.connection, 'ATAL')
+        #stream
+        self.conn.obd2_write(self.connection, 'ATMA')
 
     def obd2_innitialize(self):
 
@@ -118,14 +137,15 @@ class Obd2Link():
     def main(self):
 
         obd2_config_home = '/home/pi/obd2link/obd2link/config'
-        self.properties = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'application.properties'), use_full_path=True)
-        self.sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'codes.properties'), use_full_path=True)
+        properties = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'application.properties'), use_full_path=True)
+        sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'codes.properties'), use_full_path=True)
 
 
         now = time.time()
         self.temp_dict = {'now': str(now)}
 
         self.get_version()
+        self.make_human()
         #self.obd2_innitialize()
         #get_constants()
         #self.get_sensors()
