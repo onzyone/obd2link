@@ -6,13 +6,13 @@ import core.file_io as file_io
 import core.dict_helper as dict_helper
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
-from globals import application_properties
-from globals import sensors
-
+import globals
 
 class Obd2Link():
 
     def __init__(self):
+
+        self.application_properties, self.sensors, self.logger_config = globals.get_globals
 
         #usb connection to mxlink
         self.connection = self.get_connection()
@@ -27,8 +27,8 @@ class Obd2Link():
 
     def get_connection(self):
 
-        port = application_properties.get('input').get('port')
-        baudrate = application_properties.get('input').get('baudrate')
+        port = self.application_properties.get('input').get('port')
+        baudrate = self.application_properties.get('input').get('baudrate')
 
         conn = obd2_connection.Obd2Connection()
         connection = conn.obd2_connection(port=port, baudrate=baudrate)
@@ -57,8 +57,8 @@ class Obd2Link():
         self.conn.obd2_open(self.connection)
         self.conn.obd2_is_open(self.connection)
 
-        version_code = sensors.get('at').get('version')
-        version2_code = sensors.get('at').get('version2')
+        version_code = self.sensors.get('at').get('version')
+        version2_code = self.sensors.get('at').get('version2')
 
         print version_code
         print version2_code
@@ -138,20 +138,7 @@ class Obd2Link():
 
     def main(self):
 
-        obd2_config_home = '/home/pi/obd2link/obd2link/config'
 
-        application_properties_file = os.path.join(obd2_config_home, 'application.properties')
-        application_properties = self.ph.get_yaml_config(filename=application_properties_file, use_full_path=True)
-
-        sensors_file = os.path.join(obd2_config_home, 'codes.properties')
-        sensors = self.ph.get_yaml_config(filename=sensors_file, use_full_path=True)
-
-        logger_file = os.path.join(obd2_config_home, 'logger.properties')
-        logger_config = self.ph.get_yaml_config(filename=logger_file, use_full_path=True)
-
-        print application_properties
-        print sensors
-        print logger_config
 
         self.ph.set_logger(logger_config)
         logger = logging.getLogger("obd2")
