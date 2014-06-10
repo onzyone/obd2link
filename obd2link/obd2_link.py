@@ -158,7 +158,7 @@ class Obd2Link():
         #self.obd2_innitialize()
         #get_constants()
         #self.get_sensors()
-        #self.get_acc_axes()
+        self.get_acc_axes()
 
         #print self.temp_dict
         sorted_temp_dict = self.dh.sort_dict(self.temp_dict)
