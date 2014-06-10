@@ -12,7 +12,7 @@ import sys
 
 class PropertiesHelper:
 
-    def set_logger(conf_file):
+    def set_logger(self, conf_file):
         try:
             if conf_file is not None:
                 logging.config.dictConfig(conf_file)
