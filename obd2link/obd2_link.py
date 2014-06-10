@@ -5,7 +5,6 @@ import core.file_io as file_io
 import core.dict_helper as dict_helper
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
-import obd2.obd2_constants as obd2_constants
 
 
 class Obd2Link():
@@ -22,12 +21,10 @@ class Obd2Link():
         self.ph = file_io.PropertiesHelper()
         self.dh = dict_helper.DictHelper()
 
-        self.SENSORS = obd2_constants.SENSORS
-
         obd2_config_home = '/home/pi/obd2link/obd2link/config'
 
         self.properties = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'application.properties'), use_full_path=True)
-        self.sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'sensors.properties'), use_full_path=True)
+        self.sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'codes.properties'), use_full_path=True)
 
 
 
@@ -40,11 +37,6 @@ class Obd2Link():
         connection = conn.obd2_connection(port=port, baudrate=baudrate)
 
         return connection
-
-    def get_constants(self):
-        constants = obd2_constants.CONSTANTS
-        for key, value in constants.items():
-            print key, value
 
     def get_sensors(self):
 
@@ -67,6 +59,8 @@ class Obd2Link():
         self.conn.obd2_close(self.connection)
         self.conn.obd2_open(self.connection)
         self.conn.obd2_is_open(self.connection)
+
+        version_code = self.sensors.get('at').get('version')
 
         self.conn.obd2_write(self.connection, 'ATI')
         read = self.conn.obd2_read(self.connection)
@@ -133,11 +127,11 @@ class Obd2Link():
         #this has to be moved to a global variable
         self.temp_dict = {'now': str(now)}
 
-        #get_version(connection)
-        self.obd2_innitialize()
+        self.get_version()
+        #self.obd2_innitialize()
         #get_constants()
-        self.get_sensors()
-        self.get_acc_axes()
+        #self.get_sensors()
+        #self.get_acc_axes()
 
 
         #print self.temp_dict
