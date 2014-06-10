@@ -167,8 +167,9 @@ class Obd2Link():
         #TODO folder will be vin
         folder_location = os.path.join(self.application_properties.get('output').get('data_output_folder'), 'vin')
         self.ph.check_folder(folder_location)
-        file_location = os.path.join(folder_location, '{0}.csv'.format(now))
-        self.ph.write_csv(sorted_temp_dict, file_location)
+        file_location = os.path.join(folder_location, '{0}.pkl'.format(now))
+        #self.ph.write_csv(sorted_temp_dict, file_location)
+        self.ph.write_pickle(sorted_temp_dict, file_location)
 
 
 if __name__ == '__main__':

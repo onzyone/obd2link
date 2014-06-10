@@ -8,6 +8,7 @@ from yaml import load
 import core.dict_helper as dict_helper
 import logging.config
 import sys
+import cPickle as pickle
 
 
 class PropertiesHelper:
@@ -24,8 +25,6 @@ class PropertiesHelper:
         except:
             print "Error setting up logging: ", sys.exc_info()[0]
 
-
-    #TODO add folder location
     def write_csv(self, some_dict, file_location):
 
         dh = dict_helper.DictHelper()
@@ -36,6 +35,10 @@ class PropertiesHelper:
             #TODO if there is a header append to the bottom of the file
             self.w.writeheader()
             self.w.writerow(some_dict)
+
+    def write_pickle(self, some_dict, file_location):
+        with open(file_location, 'wb') as output:
+            pickle.dump(some_dict, output, -1)
 
     def get_yaml_config(self, *args, **kwargs):
 
