@@ -27,8 +27,8 @@ class Obd2Link():
 
     def get_connection(self):
 
-        port = properties.get('input').get('port')
-        baudrate = properties.get('input').get('baudrate')
+        port = application_properties.get('input').get('port')
+        baudrate = application_properties.get('input').get('baudrate')
 
         conn = obd2_connection.Obd2Connection()
         connection = conn.obd2_connection(port=port, baudrate=baudrate)
