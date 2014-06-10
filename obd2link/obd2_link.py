@@ -35,10 +35,14 @@ class Obd2Link():
 
         return connection
 
-    def get_sensors(self):
-
+    def open_close(self):
         self.conn.obd2_close(self.connection)
         self.conn.obd2_open(self.connection)
+        self.conn.obd2_is_open(self.connection)
+
+    def get_sensors(self):
+
+        self.open_close()
 
         for key, value in self.SENSORS.items():
     #        print k, v
@@ -51,11 +55,12 @@ class Obd2Link():
                 else:
                     print key, value
 
-    def get_version(self):
+    def get_link_version(self):
+        self.open_close()
 
-        self.conn.obd2_close(self.connection)
-        self.conn.obd2_open(self.connection)
-        self.conn.obd2_is_open(self.connection)
+    def get_obd2_version(self):
+
+        self.open_close()
 
         version_code = self.sensors.get('at').get('version')
         version2_code = self.sensors.get('at').get('version2')
@@ -75,6 +80,8 @@ class Obd2Link():
         print 'read after ATI: ' + read
 
     def make_human(self):
+
+        self.open_close()
         self.conn.obd2_write(self.connection, 'ATL1')
         self.conn.obd2_write(self.connection, 'ATH1')
         self.conn.obd2_write(self.connection, 'ATS1')
@@ -88,8 +95,7 @@ class Obd2Link():
         # this is still in prototype stage too.
         count = 0
 
-        self.conn.obd2_close(self.connection)
-        self.conn.obd2_open(self.connection)
+        self.open_close()
 
         self.conn.obd2_write(self.connection, 'ATZ')
         read = self.conn.obd2_read(self.connection)
