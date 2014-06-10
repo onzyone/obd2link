@@ -21,12 +21,6 @@ class Obd2Link():
         self.ph = file_io.PropertiesHelper()
         self.dh = dict_helper.DictHelper()
 
-        obd2_config_home = '/home/pi/obd2link/obd2link/config'
-
-        self.properties = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'application.properties'), use_full_path=True)
-        self.sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'codes.properties'), use_full_path=True)
-
-
 
     def get_connection(self):
 
@@ -123,8 +117,12 @@ class Obd2Link():
 
     def main(self):
 
+        obd2_config_home = '/home/pi/obd2link/obd2link/config'
+        self.properties = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'application.properties'), use_full_path=True)
+        self.sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'codes.properties'), use_full_path=True)
+
+
         now = time.time()
-        #this has to be moved to a global variable
         self.temp_dict = {'now': str(now)}
 
         self.get_version()
