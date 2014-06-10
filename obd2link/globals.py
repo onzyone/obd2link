@@ -1,2 +1,2 @@
-properties = {}
+application_properties = {}
 sensors = {}

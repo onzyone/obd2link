@@ -1,11 +1,13 @@
 import time
 import os
+import logging
 
 import core.file_io as file_io
 import core.dict_helper as dict_helper
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
-from globals import *
+from globals import application_properties
+from globals import sensors
 
 
 class Obd2Link():
@@ -137,9 +139,23 @@ class Obd2Link():
     def main(self):
 
         obd2_config_home = '/home/pi/obd2link/obd2link/config'
-        properties = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'application.properties'), use_full_path=True)
-        sensors = self.ph.get_yaml_config(filename=os.path.join(obd2_config_home, 'codes.properties'), use_full_path=True)
 
+        application_properties_file = os.path.join(obd2_config_home, 'application.properties')
+        application_properties = self.ph.get_yaml_config(filename=application_properties_file, use_full_path=True)
+
+        sensors_file = os.path.join(obd2_config_home, 'codes.properties')
+        sensors = self.ph.get_yaml_config(filename=sensors_file, use_full_path=True)
+
+        logger_file = os.path.join(obd2_config_home, 'logger.properties')
+        logger_config = self.ph.get_yaml_config(filename=logger_file, use_full_path=True)
+
+        print application_properties
+        print sensors
+        print logger_config
+
+        self.ph.set_logger(logger_config)
+        logger = logging.getLogger("obd2")
+        logger.info('testing_122')
 
         now = time.time()
         self.temp_dict = {'now': str(now)}

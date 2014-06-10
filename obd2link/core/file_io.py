@@ -6,9 +6,19 @@ import ConfigParser
 from yaml import load
 
 import core.dict_helper as dict_helper
+import logging.config
+import sys
 
 
 class PropertiesHelper:
+
+    def set_logger(conf_file):
+        try:
+            if conf_file is not None:
+                logging.config.dictConfig(conf_file)
+        except:
+            print "Error setting up logging: ", sys.exc_info()[0]
+
 
     #TODO add folder location
     def write_csv(self, some_dict, file_location):
