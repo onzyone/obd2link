@@ -1,2 +1,2 @@
 properties = {}
-sensors {}
+sensors = {}
