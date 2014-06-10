@@ -12,7 +12,7 @@ class Obd2Link():
 
     def __init__(self):
 
-        self.application_properties, self.sensors, self.logger_config = globals.get_globals
+        self.application_properties, self.sensors, self.logger_config = globals.get_globals()
 
         #usb connection to mxlink
         self.connection = self.get_connection()
