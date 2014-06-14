@@ -74,16 +74,20 @@ class Obd2Link():
 
         print 'read after ATI: {0}'.format(read)
 
-    def get_vin(self):
+    def get_mode09(self):
         self.open_close()
 
-        for each in self.sensors.get('vin'):
-            value = self.sensors.get('vin').get(each)
+        mode09 = {}
+
+        for each in self.sensors.get('mode09'):
+            value = self.sensors.get('mode09').get(each)
 
             self.conn.obd2_write(self.connection, value)
             time.sleep(.5)
             read = self.conn.obd2_read(self.connection)
-            print 'read after {0}: {1}'.format(value, read)
+            self.dh.update_dict(mode09, value, read)
+
+        print mode09
 
     def make_human(self):
 
@@ -160,7 +164,7 @@ class Obd2Link():
         self.temp_dict = {'now': str(now)}
 
         self.get_obd2_version()
-        self.get_vin()
+        self.get_mode09()
         self.get_sensors()
 
         #self.get_acc_axes()
