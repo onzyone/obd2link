@@ -104,10 +104,11 @@ class Obd2Link():
         self.open_close()
 
         for each in self.sensors.get('startup_steps'):
+            value = self.sensors.get('startup_steps').get(each)
 
-            self.conn.obd2_write(self.connection, each)
+            self.conn.obd2_write(self.connection, value)
             read = self.conn.obd2_read(self.connection)
-            print 'read after {0}: {1}'.format(each, read)
+            print 'read after {0}: {1}'.format(value, read)
 
         #Sensor("          Supported PIDs", "0100", hex_to_bitstring  ,""       ),
         self.conn.obd2_write(self.connection, '0100')
