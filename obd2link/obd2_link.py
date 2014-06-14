@@ -6,7 +6,8 @@ import core.file_io as file_io
 import core.dict_helper as dict_helper
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
-import globals
+from obd2link.core import globals
+
 
 class Obd2Link():
 
@@ -150,12 +151,15 @@ class Obd2Link():
         logger = logging.getLogger("obd2")
         logger.info('testing_122')
 
+        self.obd2_innitialize()
+
+
         now = time.time()
         self.temp_dict = {'now': str(now)}
 
-        self.get_obd2_version()
         self.make_human()
-        #self.obd2_innitialize()
+        self.get_obd2_version()
+
         #get_constants()
         #self.get_sensors()
         self.get_acc_axes()
