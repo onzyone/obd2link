@@ -56,9 +56,6 @@ class Obd2Link():
                 else:
                     print key, value
 
-    def get_link_version(self):
-        self.open_close()
-
     def get_obd2_version(self):
 
         self.open_close()
@@ -79,6 +76,15 @@ class Obd2Link():
             print 'read after ATZ' + read
 
         print 'read after ATI: ' + read
+
+    def get_vin(self):
+        self.open_close()
+
+        VIN = ["09 00", "90 02"]
+        for i, val in enumerate(VIN):
+            self.conn.obd2_write(self.connection, val)
+            read = self.conn.obd2_read(self.connection)
+            print read + ' after ' + val
 
     def make_human(self):
 
@@ -160,9 +166,11 @@ class Obd2Link():
         self.make_human()
         self.get_obd2_version()
 
+
+        self.get_vin()
         #get_constants()
         #self.get_sensors()
-        self.get_acc_axes()
+        #self.get_acc_axes()
 
         #print self.temp_dict
         sorted_temp_dict = self.dh.sort_dict(self.temp_dict)

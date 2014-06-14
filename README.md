@@ -46,3 +46,5 @@ http://wolframpc.blogspot.ca/p/raspberry-pi-carputer-page-2.html
 
 python 
 http://techminor.blogspot.ca/2013/05/raspberry-pi-direct-usb-to-uart-using.html
+
+http://obdcon.sourceforge.net/2010/06/obd-ii-pids/
