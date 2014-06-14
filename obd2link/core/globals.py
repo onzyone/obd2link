@@ -4,7 +4,7 @@ import file_io as file_io
 def get_globals():
     ph = file_io.PropertiesHelper()
 
-    obd2_config_home = '/home/pi/obd2link/obd2link/config'
+    obd2_config_home = '/mnt/application/obd2link/obd2link/config'
 
     application_properties_file = os.path.join(obd2_config_home, 'application.properties')
     application_properties = ph.get_yaml_config(filename=application_properties_file, use_full_path=True)
