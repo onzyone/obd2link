@@ -46,16 +46,13 @@ class Obd2Link():
 
         self.open_close()
 
-        for key, value in self.SENSORS.items():
-    #        print k, v
-            for key, value in value.items():
-                if key == 'hex':
-                    self.conn.obd2_write(self.connection, value)
-                    read = self.conn.obd2_read(self.connection)
-                    self.temp_dict.update({value: read})
-                    print 'value of {0} after reading bus: {1}'.format(value, read)
-                else:
-                    print key, value
+        for each in self.sensors.get('sensors'):
+            value = self.sensors.get('sensors').get(each)
+
+            self.conn.obd2_write(self.connection, value)
+            read = self.conn.obd2_read(self.connection)
+            print 'read after {0}: {1}'.format(value, read)
+
 
     def get_obd2_version(self):
 
@@ -161,10 +158,8 @@ class Obd2Link():
 
         self.get_obd2_version()
         self.get_vin()
+        self.get_sensors()
 
-
-        #get_constants()
-        #self.get_sensors()
         #self.get_acc_axes()
 
         #self.make_human()
