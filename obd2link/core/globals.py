@@ -1,5 +1,5 @@
 import os
-import core.file_io as file_io
+import file_io as file_io
 
 def get_globals():
     ph = file_io.PropertiesHelper()
@@ -14,8 +14,8 @@ def get_globals():
 
     logger_file = os.path.join(obd2_config_home, 'logger.properties')
     logger_config = ph.get_yaml_config(filename=logger_file, use_full_path=True)
-    log_file = logger_config.get('handlers').get('logfile')
-    dh.update_dict(log_file, 'filename', (rv.get('loggerFolder') + '/your_log_file_name.log'))
+#    log_file = logger_config.get('handlers').get('logfile')
+#    dh.update_dict(log_file, 'filename', (rv.get('loggerFolder') + '/your_log_file_name.log'))
 
 
     #print application_properties
