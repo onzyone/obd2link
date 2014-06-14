@@ -131,8 +131,7 @@ class Obd2Link():
         # where 41 05 is the header and 79 is the hex value
 
 
-def get_acc_axes(self):
-
+    def get_acc_axes(self):
 
         axes = self.acc.getAxes(True)
         self.dh.update_dict(self.temp_dict, 'x_acc', axes['x'])
@@ -144,8 +143,6 @@ def get_acc_axes(self):
         print "   z = %.3fG" % ( axes['z'] )
 
     def main(self):
-
-
 
         self.ph.set_logger(self.logger_config)
         logger = logging.getLogger("obd2")
