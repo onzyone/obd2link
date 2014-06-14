@@ -50,7 +50,7 @@ class Obd2Link():
             value = self.sensors.get('sensors').get(each)
 
             self.conn.obd2_write(self.connection, value)
-            time.sleep(.1)
+            time.sleep(.5)
             read = self.conn.obd2_read(self.connection)
             print 'read after {0}: {1}'.format(value, read)
 
@@ -70,9 +70,9 @@ class Obd2Link():
 
             self.conn.obd2_write(self.connection, 'AT' + version2_code)
             read = self.conn.obd2_read(self.connection)
-            print 'read after ATZ' + read
+            print 'read after ATZ {0}'.format(read)
 
-        print 'read after ATI: ' + read
+        print 'read after ATI: {0}'.format(read)
 
     def get_vin(self):
         self.open_close()
@@ -80,6 +80,7 @@ class Obd2Link():
         VIN = ["0900", "0902"]
         for i, val in enumerate(VIN):
             self.conn.obd2_write(self.connection, val)
+            time.sleep(.5)
             read = self.conn.obd2_read(self.connection)
             print 'read value after {0}: {1}'.format(val, read)
 
