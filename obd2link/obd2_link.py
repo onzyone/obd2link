@@ -4,9 +4,10 @@ import logging
 
 import core.file_io as file_io
 import core.dict_helper as dict_helper
+import core.globals as globals
+
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
-from obd2link.core import globals
 
 
 class Obd2Link():
