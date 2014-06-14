@@ -64,15 +64,13 @@ class Obd2Link():
         version_code = self.sensors.get('at').get('version')
         version2_code = self.sensors.get('at').get('version2')
 
-        print version_code
-        print version2_code
 
-        self.conn.obd2_write(self.connection, 'ATI')
+        self.conn.obd2_write(self.connection, 'AT' + version_code)
         read = self.conn.obd2_read(self.connection)
 
         if read == None:
 
-            self.conn.obd2_write(self.connection, 'ATZ')
+            self.conn.obd2_write(self.connection, 'AT' + version2_code)
             read = self.conn.obd2_read(self.connection)
             print 'read after ATZ' + read
 
@@ -85,7 +83,7 @@ class Obd2Link():
         for i, val in enumerate(VIN):
             self.conn.obd2_write(self.connection, val)
             read = self.conn.obd2_read(self.connection)
-            print read + ' after ' + val
+            print 'read value after {0}: {1}'.format(val, read)
 
     def make_human(self):
 
@@ -95,7 +93,7 @@ class Obd2Link():
         self.conn.obd2_write(self.connection, 'ATS1')
         self.conn.obd2_write(self.connection, 'ATAL')
         #stream
-        self.conn.obd2_write(self.connection, 'ATMA')
+        #self.conn.obd2_write(self.connection, 'ATMA')
 
     def obd2_innitialize(self):
 
