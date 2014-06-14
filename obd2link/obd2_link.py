@@ -88,9 +88,13 @@ class Obd2Link():
     def make_human(self):
 
         self.open_close()
+        #Linefeeds On
         self.conn.obd2_write(self.connection, 'ATL1')
+        #Headers On
         self.conn.obd2_write(self.connection, 'ATH1')
+        #perform a Slow Initiation
         self.conn.obd2_write(self.connection, 'ATS1')
+        #Allow Long (>7 byte) messages
         self.conn.obd2_write(self.connection, 'ATAL')
         #stream
         #self.conn.obd2_write(self.connection, 'ATMA')
@@ -113,16 +117,21 @@ class Obd2Link():
         #Sensor("          Supported PIDs", "0100", hex_to_bitstring  ,""       ),
         self.conn.obd2_write(self.connection, '0100')
         read = self.conn.obd2_read(self.connection)
-        print 'read after 0100: ' + read
+        print 'read after 0100: {0}'.format(read)
+        #output: 41 00 BE 1F B8 10 where 41 00 is the header
 
         #Sensor("     Coolant Temperature", "0105", temp              ,"C"      ),
         self.conn.obd2_write(self.connection, '0105')
         read = self.conn.obd2_read(self.connection)
+        if read = 'STOPPED':
+            print 'Car is not running'
+
+        print 'read after 0105: {0}'.format(read)
         # expected output: hex, 41 05 79
         # where 41 05 is the header and 79 is the hex value
-        print 'read after 0105: ' + read
 
-    def get_acc_axes(self):
+
+def get_acc_axes(self):
 
 
         axes = self.acc.getAxes(True)
@@ -148,18 +157,17 @@ class Obd2Link():
         now = time.time()
         self.temp_dict = {'now': str(now)}
 
-        self.make_human()
         self.get_obd2_version()
-
-
         self.get_vin()
+
+
         #get_constants()
         #self.get_sensors()
         #self.get_acc_axes()
 
-        #print self.temp_dict
+        #self.make_human()
+
         sorted_temp_dict = self.dh.sort_dict(self.temp_dict)
-        #print sorted_temp_dict
 
         #TODO folder will be vin
         folder_location = os.path.join(self.application_properties.get('output').get('data_output_folder'), 'vin')
