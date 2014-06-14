@@ -79,7 +79,7 @@ class Obd2Link():
     def get_vin(self):
         self.open_close()
 
-        VIN = ["09 00", "90 02"]
+        VIN = ["9002"]
         for i, val in enumerate(VIN):
             self.conn.obd2_write(self.connection, val)
             read = self.conn.obd2_read(self.connection)
