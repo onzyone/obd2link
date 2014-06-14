@@ -103,26 +103,11 @@ class Obd2Link():
 
         self.open_close()
 
-        self.conn.obd2_write(self.connection, 'ATZ')
-        read = self.conn.obd2_read(self.connection)
+        for each in self.sensors.get('startup_steps'):
 
-        print 'read after ATZ: ' + read
-
-        time.sleep(5)
-
-        #echo off
-        self.conn.obd2_write(self.connection, 'ATE0')
-        read = self.conn.obd2_read(self.connection)
-
-        print 'read after ATE0: ' + read
-
-        self.conn.obd2_write(self.connection, 'ATDP')
-        read = self.conn.obd2_read(self.connection)
-
-        print 'read after ATDP: ' + read
-
-        #not connected: UNABLE TO CONNECTSEARCHING
-
+            self.conn.obd2_write(self.connection, each)
+            read = self.conn.obd2_read(self.connection)
+            print 'read after {0}: {1}'.format(each, read)
 
         #Sensor("          Supported PIDs", "0100", hex_to_bitstring  ,""       ),
         self.conn.obd2_write(self.connection, '0100')
