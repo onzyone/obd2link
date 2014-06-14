@@ -22,7 +22,7 @@ class Obd2Link():
         # obd2 connection
         self.conn = obd2_connection.Obd2Connection()
 
-        self.acc = accelerometer.ADXL345()
+        #self.acc = accelerometer.ADXL345()
         self.ph = file_io.PropertiesHelper()
         self.dh = dict_helper.DictHelper()
 
