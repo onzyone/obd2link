@@ -123,7 +123,7 @@ class Obd2Link():
         #Sensor("     Coolant Temperature", "0105", temp              ,"C"      ),
         self.conn.obd2_write(self.connection, '0105')
         read = self.conn.obd2_read(self.connection)
-        if read = 'STOPPED':
+        if read == 'STOPPED':
             print 'Car is not running'
 
         print 'read after 0105: {0}'.format(read)
