@@ -77,12 +77,13 @@ class Obd2Link():
     def get_vin(self):
         self.open_close()
 
-        VIN = ["0900", "0902"]
-        for i, val in enumerate(VIN):
-            self.conn.obd2_write(self.connection, val)
+        for each in self.sensors.get('vin'):
+            value = self.sensors.get('vin').get(each)
+
+            self.conn.obd2_write(self.connection, value)
             time.sleep(.5)
             read = self.conn.obd2_read(self.connection)
-            print 'read value after {0}: {1}'.format(val, read)
+            print 'read after {0}: {1}'.format(value, read)
 
     def make_human(self):
 
