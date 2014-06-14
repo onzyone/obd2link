@@ -120,6 +120,11 @@ class Obd2Link():
         print 'read after 0100: {0}'.format(read)
         #output: 41 00 BE 1F B8 10 where 41 00 is the header
 
+        # Set the caller's desired protocol, then make a simple "0100" call to
+        # make sure the ECU responds.  If we get anything back other than something
+        # that starts with "41 00", it means the ELM can't talk to the OBD
+        #system.
+
         #Sensor("     Coolant Temperature", "0105", temp              ,"C"      ),
         self.conn.obd2_write(self.connection, '0105')
         read = self.conn.obd2_read(self.connection)
