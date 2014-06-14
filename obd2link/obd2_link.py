@@ -49,6 +49,8 @@ class Obd2Link():
         for each in self.sensors.get('sensors'):
             value = self.sensors.get('sensors').get(each)
 
+            print value
+
             self.conn.obd2_write(self.connection, value)
             read = self.conn.obd2_read(self.connection)
             print 'read after {0}: {1}'.format(value, read)
