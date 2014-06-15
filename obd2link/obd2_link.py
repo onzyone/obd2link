@@ -16,7 +16,8 @@ class Obd2Link():
 
         self.application_properties, self.sensors, self.logger_config = globals.get_globals()
 
-        self.sample_rate = self.application_properties.get('sample_rate')
+        self.sample_rate = self.application_properties.get('input').get('sample_rate')
+        self.number_of_loops = self.application_properties.get('input').get('number_of_loops')
 
         #usb connection to mxlink
         self.connection = self.get_connection()
@@ -160,6 +161,9 @@ class Obd2Link():
 
         # this will be put into a loop based on the sample_rate found
         print self.sample_rate
+
+        # this will be used for debug
+        print self.number_of_loops
 
         sensors = self.get_date('sensors')
 
