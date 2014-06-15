@@ -165,22 +165,27 @@ class Obd2Link():
         # this will be used for debug
         print self.number_of_loops
 
-        sensors = self.get_date('sensors')
+        count = 0
+        while (count < self.number_of_loops):
+            time.sleep(self.sample_rate)
+            print 'The count is:', count
+            count = count + 1
+            sensors = self.get_date('sensors')
+            print sensors
 
-        print sensors
+        self.dh.update_dict(self.temp_dict, 'sensors_data', sensors)
+        print self.temp_dict
 
         #self.get_acc_axes()
 
         #self.make_human()
-
-        sorted_temp_dict = self.dh.sort_dict(self.temp_dict)
 
         #TODO folder will be vin
         folder_location = os.path.join(self.application_properties.get('output').get('data_output_folder'), 'vin')
         self.ph.check_folder(folder_location)
         file_location = os.path.join(folder_location, '{0}.pkl'.format(now))
         #self.ph.write_csv(sorted_temp_dict, file_location)
-        self.ph.write_pickle(sorted_temp_dict, file_location)
+        self.ph.write_pickle(self.temp_dict, file_location)
 
 
 if __name__ == '__main__':
