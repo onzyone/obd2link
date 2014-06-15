@@ -42,19 +42,6 @@ class Obd2Link():
         self.conn.obd2_open(self.connection)
         self.conn.obd2_is_open(self.connection)
 
-    def get_sensors(self):
-
-        self.open_close()
-
-        for each in self.sensors.get('sensors'):
-            value = self.sensors.get('sensors').get(each)
-
-            self.conn.obd2_write(self.connection, value)
-            time.sleep(.5)
-            read = self.conn.obd2_read(self.connection)
-            print 'read after {0}: {1}'.format(value, read)
-
-
     def get_obd2_version(self):
 
         self.open_close()
@@ -74,20 +61,20 @@ class Obd2Link():
 
         print 'read after ATI: {0}'.format(read)
 
-    def get_mode09(self):
+    def get_date(self, property):
         self.open_close()
 
-        mode09 = {}
+        self.propertiy_dict = {}
 
-        for each in self.sensors.get('mode09'):
-            value = self.sensors.get('mode09').get(each)
+        for each in self.sensors.get(property):
+            value = self.sensors.get(property).get(each)
 
             self.conn.obd2_write(self.connection, value)
             time.sleep(.5)
             read = self.conn.obd2_read(self.connection)
-            self.dh.update_dict(mode09, value, read)
+            self.dh.update_dict(self.propertiy_dict, value, read)
 
-        print mode09
+        return self.propertiy_dict
 
     def make_human(self):
 
@@ -164,8 +151,12 @@ class Obd2Link():
         self.temp_dict = {'now': str(now)}
 
         self.get_obd2_version()
-        self.get_mode09()
-        self.get_sensors()
+        mode09 = self.get_date('mode09')
+        sensors = self.get_date('sensors')
+
+
+        print mode09
+        print sensors
 
         #self.get_acc_axes()
 
