@@ -16,6 +16,8 @@ class Obd2Link():
 
         self.application_properties, self.sensors, self.logger_config = globals.get_globals()
 
+        self.sample_rate = self.application_properties.get('sample_rate')
+
         #usb connection to mxlink
         self.connection = self.get_connection()
 
@@ -151,11 +153,16 @@ class Obd2Link():
         self.temp_dict = {'now': str(now)}
 
         self.get_obd2_version()
+
         mode09 = self.get_date('mode09')
+        print mode09
+
+
+        # this will be put into a loop based on the sample_rate found
+        print self.sample_rate
+
         sensors = self.get_date('sensors')
 
-
-        print mode09
         print sensors
 
         #self.get_acc_axes()
