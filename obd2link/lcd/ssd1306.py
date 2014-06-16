@@ -11,8 +11,8 @@ def set_lcd(message, position, clear):
     # 0, 8, 16, 24
     message = str(message)
     led = gaugette.ssd1306.SSD1306(reset_pin=RESET_PIN, dc_pin=DC_PIN)
-    print clear
     if clear:
+        print 'clearing? {0}'.format(clear)
         led.begin()
         led.clear_display()
 
