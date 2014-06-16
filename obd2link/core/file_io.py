@@ -13,7 +13,7 @@ import cPickle as pickle
 
 class PropertiesHelper:
 
-    def get_usb():
+    def get_usb(self):
         for dev in usb.core.find(find_all=True):
             print "Device:", dev.filename
             print "  idVendor: %d (%s)" % (dev.idVendor, hex(dev.idVendor))
