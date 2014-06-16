@@ -150,7 +150,8 @@ class Obd2Link():
 
 
         mnt_size = self.ph.check_disk('/mnt')
-        print mnt_size
+        print mnt_size.percent
+
 
         self.obd2_innitialize()
 

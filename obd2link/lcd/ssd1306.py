@@ -30,8 +30,7 @@ def set_lcd(message):
     intro = 'Hello!'
     ip = 'Your IP Address is:'
     led.draw_text2(0, 0, intro, 1)
-    led.draw_text2(0, 7, ip, 1)
-    led.draw_text2(0, 14, message, 1)
-    led.draw_text2(0, 21, message, 1)
-    led.draw_text2(0, 28, message, 1)
+    led.draw_text2(0, 8, ip, 1)
+    led.draw_text2(0, 16, message, 1)
+    led.draw_text2(0, 24, message, 1)
     led.display()
