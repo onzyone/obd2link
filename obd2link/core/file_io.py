@@ -14,10 +14,13 @@ import cPickle as pickle
 class PropertiesHelper:
 
     def get_usb(self):
-        for dev in usb.core.find(find_all=True):
-            print "Device:", dev.filename
-            print "  idVendor: %d (%s)" % (dev.idVendor, hex(dev.idVendor))
-            print "  idProduct: %d (%s)" % (dev.idProduct, hex(dev.idProduct))
+        busses = usb.busses()
+        for bus in busses:
+            devices = bus.devices
+            for dev in devices:
+                print "Device:", dev.filename
+                print "  idVendor: %d (0x%04x)" % (dev.idVendor, dev.idVendor)
+                print "  idProduct: %d (0x%04x)" % (dev.idProduct, dev.idProduct)
 
     def check_folder(self, folder_path):
         if not os.path.exists(folder_path):
