@@ -151,14 +151,14 @@ class Obd2Link():
 
         mnt = self.ph.check_disk('/mnt')
         mnt_percent = mnt.percent
-        message = 'mnt used percent: {0}'.format(mnt_percent)
-        lcd.set_lcd(message, 0)
+        message = 'mnt used: {0}%'.format(mnt_percent)
+        lcd.set_lcd(message, 0, True)
 
         self.obd2_innitialize()
 
         now = time.time()
-        message = 'time in epoc is: {0}'.format(now)
-        lcd.set_lcd(message, 8)
+        message = 'epoc: {0}'.format(now)
+        lcd.set_lcd(message, 8, False)
         self.temp_dict = {'now': str(now)}
 
         self.get_obd2_version()
@@ -170,8 +170,8 @@ class Obd2Link():
         # this will be put into a loop based on the sample_rate found
         print self.sample_rate
 
-        message = 'selected sample rate is: {0}'.format(self.sample_rate)
-        lcd.set_lcd(message, 16)
+        message = 'sample rate: {0}'.format(self.sample_rate)
+        lcd.set_lcd(message, 16, False)
 
         # this will be used for debug
         print self.number_of_loops
@@ -183,7 +183,7 @@ class Obd2Link():
             count = count + 1
             sensors = self.get_date('sensors')
             message = 'count is: {0}'.format(count)
-            lcd.set_lcd(message, 24)
+            lcd.set_lcd(message, 24, False)
             print sensors
 
         self.dh.update_dict(self.temp_dict, 'sensors_data', sensors)
