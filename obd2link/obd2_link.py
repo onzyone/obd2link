@@ -170,7 +170,8 @@ class Obd2Link():
         # this will be put into a loop based on the sample_rate found
         print self.sample_rate
 
-        lcd.set_lcd(self.sample_rate, 16)
+        message = 'selected sample rate is: {0}'.format(self.sample_rate)
+        lcd.set_lcd(message, 16)
 
         # this will be used for debug
         print self.number_of_loops
@@ -181,7 +182,8 @@ class Obd2Link():
             print 'The count is: {0}'.format(count)
             count = count + 1
             sensors = self.get_date('sensors')
-            lcd.set_lcd(count, 24)
+            message = 'count is: {0}'.format(count)
+            lcd.set_lcd(message, 24)
             print sensors
 
         self.dh.update_dict(self.temp_dict, 'sensors_data', sensors)
