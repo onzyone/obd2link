@@ -149,7 +149,8 @@ class Obd2Link():
         logger.info('testing_122')
 
 
-        self.ph.get_usb()
+        mnt_size = self.ph.check_disk('/mnt')
+        print mnt_size
 
         self.obd2_innitialize()
 
