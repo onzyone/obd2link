@@ -116,18 +116,17 @@ class Obd2Connection():
                 repeat_count = repeat_count + 1
                 continue
 
-            if c == '\r':
-                continue
+            if c == '\r' and len(c) > 0:
+                break
 
-            if c == ">":
-                break;
-
-            if buffer != "" or c != ">": #if something is in buffer, add everything
+            #if something is in buffer, add everything
+            elif buffer != "" or c != ">":
                 buffer = buffer + c
 
-            if (buffer == ""):
-                return None
-            return buffer
+        if (buffer == ""):
+            return None
+
+        return buffer
 
 #        time.sleep(0.1)
 #        while 1:
