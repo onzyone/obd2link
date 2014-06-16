@@ -163,7 +163,7 @@ class Obd2Link():
         # this will be put into a loop based on the sample_rate found
         print self.sample_rate
 
-        lcd.set_lcd(self.sampe_rate)
+        lcd.set_lcd(self.sample_rate)
 
         # this will be used for debug
         print self.number_of_loops
