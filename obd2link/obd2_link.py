@@ -8,6 +8,7 @@ import core.globals as globals
 
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
+import lcd.ssd1306 as lcd
 
 
 class Obd2Link():
@@ -162,13 +163,15 @@ class Obd2Link():
         # this will be put into a loop based on the sample_rate found
         print self.sample_rate
 
+        lcd.set_lcd(self.sampe_rate)
+
         # this will be used for debug
         print self.number_of_loops
 
         count = 0
         while (count < self.number_of_loops):
             time.sleep(self.sample_rate)
-            print 'The count is:', count
+            print 'The count is: {0}'.format(count)
             count = count + 1
             sensors = self.get_date('sensors')
             print sensors
