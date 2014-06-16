@@ -18,8 +18,11 @@ RESET_PIN = 15
 DC_PIN    = 16
 TEXT = ''
 
-def set_lcd(message):
+def set_lcd(message, position):
 
+
+    #define positions
+    # 0, 8, 16, 24
     message = str(message)
     led = gaugette.ssd1306.SSD1306(reset_pin=RESET_PIN, dc_pin=DC_PIN)
     led.begin()
@@ -27,10 +30,8 @@ def set_lcd(message):
 
     # The actual printing of TEXT
     led.clear_display()
-    intro = 'Hello!'
-    ip = 'Your IP Address is:'
-    led.draw_text2(0, 0, intro, 1)
-    led.draw_text2(0, 8, ip, 1)
-    led.draw_text2(0, 16, message, 1)
-    led.draw_text2(0, 24, message, 1)
+    led.draw_text2(0, position, message, 1)
+    led.draw_text2(0, position, message, 1)
+    led.draw_text2(0, position, message, 1)
+    led.draw_text2(0, position, message, 1)
     led.display()
