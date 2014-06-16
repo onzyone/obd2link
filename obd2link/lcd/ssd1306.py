@@ -20,6 +20,7 @@ TEXT = ''
 
 def set_lcd(message):
 
+    message = str(message)
     led = gaugette.ssd1306.SSD1306(reset_pin=RESET_PIN, dc_pin=DC_PIN)
     led.begin()
     led.clear_display()
