@@ -65,7 +65,7 @@ class Obd2Link():
 
         print 'read after ATI: {0}'.format(read)
 
-    def get_date(self, property):
+    def get_data(self, property):
         self.open_close()
 
         self.propertiy_dict = {}
@@ -74,7 +74,7 @@ class Obd2Link():
             value = self.sensors.get(property).get(each)
 
             self.conn.obd2_write(self.connection, value)
-            time.sleep(.5)
+            #time.sleep(.5)
             read = self.conn.obd2_read(self.connection)
             self.dh.update_dict(self.propertiy_dict, value, read)
 
@@ -163,7 +163,7 @@ class Obd2Link():
 
         self.get_obd2_version()
 
-        mode09 = self.get_date('mode09')
+        mode09 = self.get_data('mode09')
         print mode09
 
 
@@ -180,7 +180,7 @@ class Obd2Link():
         while (count < self.number_of_loops):
             time.sleep(self.sample_rate)
             count = count + 1
-            sensors = self.get_date('sensors')
+            sensors = self.get_data('sensors')
             message = 'count is: {0}'.format(count)
             lcd.set_lcd(message, 24, False)
             print sensors

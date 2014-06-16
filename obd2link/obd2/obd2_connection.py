@@ -119,8 +119,8 @@ class Obd2Connection():
             if c == '\r':
                 continue
 
-                if c == ">":
-                    break;
+            if c == ">":
+                break;
 
             if buffer != "" or c != ">": #if something is in buffer, add everything
                 buffer = buffer + c
