@@ -103,16 +103,39 @@ class Obd2Connection():
 
     def obd2_read(self, serial_connection):
 
-        out_put = ''
+        buffer = ""
+        repeat_count = 0
 
        # let's wait one second before reading output (let's give device time to answer)
-        time.sleep(0.1)
         while 1:
-            char = serial_connection.read(1)
-            if char == '\r' and len(out_put) > 0:
-                break
-            else:
-                # if there is something in the buffer this will add it all up
-                if (out_put != '' or char != '>') :
-                    out_put = out_put + char
-        return out_put
+            c = serial_connection.read(1)
+            if len(c) == 0:
+                if (repeat_count == 5):
+                    break
+                print "Got nothing\n"
+                repeat_count = repeat_count + 1
+                continue
+
+            if c == '\r':
+                continue
+
+                if c == ">":
+                    break;
+
+            if buffer != "" or c != ">": #if something is in buffer, add everything
+                buffer = buffer + c
+
+            if (buffer == ""):
+                return None
+            return buffer
+
+#        time.sleep(0.1)
+#        while 1:
+#            char = serial_connection.read(1)
+#            if char == '\r' and len(out_put) > 0:
+#                break
+#            else:
+#                # if there is something in the buffer this will add it all up
+#                if (out_put != '' or char != '>') :
+#                    out_put = out_put + char
+#        return out_put
