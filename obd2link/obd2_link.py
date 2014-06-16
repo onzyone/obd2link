@@ -179,7 +179,6 @@ class Obd2Link():
         count = 0
         while (count < self.number_of_loops):
             time.sleep(self.sample_rate)
-            print 'The count is: {0}'.format(count)
             count = count + 1
             sensors = self.get_date('sensors')
             message = 'count is: {0}'.format(count)
