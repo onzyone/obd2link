@@ -5,7 +5,6 @@ import logging
 import core.file_io as file_io
 import core.dict_helper as dict_helper
 import core.globals as globals
-import core.usb as usb
 
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
@@ -150,8 +149,8 @@ class Obd2Link():
         logger.info('testing_122')
 
 
-        usb.get_usb()
-        
+        self.ph.get_usb()
+
         self.obd2_innitialize()
 
 

@@ -7,3 +7,4 @@ jinja2==2.7.2
 tornado==3.2.1
 cffi==0.8.1
 smbus-cffi==0.1
+pyUsb==1.0.0a3

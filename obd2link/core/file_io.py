@@ -1,7 +1,7 @@
 import csv
 import os
-import sys
 import ConfigParser
+import usb
 
 from yaml import load
 
@@ -12,6 +12,12 @@ import cPickle as pickle
 
 
 class PropertiesHelper:
+
+    def get_usb():
+        for dev in usb.core.find(find_all=True):
+            print "Device:", dev.filename
+            print "  idVendor: %d (%s)" % (dev.idVendor, hex(dev.idVendor))
+            print "  idProduct: %d (%s)" % (dev.idProduct, hex(dev.idProduct))
 
     def check_folder(self, folder_path):
         if not os.path.exists(folder_path):
