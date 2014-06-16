@@ -174,6 +174,7 @@ class Obd2Link():
             print 'The count is: {0}'.format(count)
             count = count + 1
             sensors = self.get_date('sensors')
+            lcd.set_lcd(count)
             print sensors
 
         self.dh.update_dict(self.temp_dict, 'sensors_data', sensors)
