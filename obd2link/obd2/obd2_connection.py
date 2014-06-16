@@ -62,9 +62,9 @@ class Obd2Connection():
     def obd2_connection(self, *args, **kwargs):
 
         #get ports
-        port_names = self.get_port()
-        for port in port_names:
-            print port
+#        port_names = self.get_port()
+#        for port in port_names:
+#            print port
 
         # this will be replaced by the code above ... when it is working
         self.port = kwargs.pop('port')
