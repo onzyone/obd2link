@@ -159,7 +159,6 @@ class Obd2Link():
         now = time.time()
         message = 'epoc: {0}'.format(now)
         lcd.set_lcd(message, 8, False)
-        self.temp_dict = {'now': str(now)}
 
         self.get_obd2_version()
 
@@ -178,15 +177,17 @@ class Obd2Link():
 
         count = 0
         while (count < self.number_of_loops):
-            time.sleep(self.sample_rate)
+            now = time.time()
+            self.temp_dict = {'now': str(now)}
+
+            #time.sleep(self.sample_rate)
             count = count + 1
+
             sensors = self.get_data('sensors')
             message = 'count is: {0}'.format(count)
             lcd.set_lcd(message, 24, False)
-            print sensors
-
-        self.dh.update_dict(self.temp_dict, 'sensors_data', sensors)
-        print self.temp_dict
+            self.dh.update_dict(self.temp_dict, 'sensors_data', sensors)
+            print self.temp_dict
 
         #self.get_acc_axes()
 
