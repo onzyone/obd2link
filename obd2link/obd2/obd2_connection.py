@@ -101,6 +101,15 @@ class Obd2Connection():
             serial_connection.write(c)
         serial_connection.write("\r\n")
 
+    def obd2_read_mulit(self, serial_connection):
+
+        buffer = ""
+
+        while serial_connection.inWaiting() > 0:
+            buffer += serial_connection.read(1)
+
+        return buffer
+
     def obd2_read(self, serial_connection):
 
         buffer = ""
@@ -109,7 +118,7 @@ class Obd2Connection():
        # let's wait one second before reading output (let's give device time to answer)
         while 1:
             c = serial_connection.read(1)
-            if len(c) == 0: # or c != "STOPPED":
+            if len(c) == 0:
                 if (repeat_count == 5):
                     break
                 print "Got nothing\n"

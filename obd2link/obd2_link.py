@@ -5,6 +5,7 @@ import logging
 import core.file_io as file_io
 import core.dict_helper as dict_helper
 import core.globals as globals
+import core.converters as converters
 
 import accelerometer.adxl345 as accelerometer
 import obd2.obd2_connection as obd2_connection
@@ -46,24 +47,25 @@ class Obd2Link():
         self.conn.obd2_open(self.connection)
         self.conn.obd2_is_open(self.connection)
 
-    def get_obd2_version(self):
+    def get_vin(self):
 
-        self.open_close()
+        #setup to read 17 to 20 return on multiple lines
+        #example:
+        #0:000201315900
+        #1:00503832443400
+        #2:004D3533303900
+        self.conn.obd2_write(self.connection, 'ATS1')
+        #Allow Long (>7 byte) messages
+        self.conn.obd2_write(self.connection, 'ATAL')
 
-        version_code = self.sensors.get('at').get('version')
-        version2_code = self.sensors.get('at').get('version2')
 
+        read = self.conn.obd2_read_mulit(self.connection)
 
-        self.conn.obd2_write(self.connection, 'AT' + version_code)
-        read = self.conn.obd2_read(self.connection)
+        print read
 
-        if read == None:
+        ascii_read = converters.hex_to_ascii(read)
 
-            self.conn.obd2_write(self.connection, 'AT' + version2_code)
-            read = self.conn.obd2_read(self.connection)
-            print 'read after ATZ {0}'.format(read)
-
-        print 'read after ATI: {0}'.format(read)
+        print ascii_read
 
     def get_data(self, property):
         self.open_close()
@@ -153,6 +155,9 @@ class Obd2Link():
         mnt_percent = mnt.percent
         message = 'mnt used: {0}%'.format(mnt_percent)
         lcd.set_lcd(message, 0, True)
+
+
+        self.get_vin()
 
         self.obd2_innitialize()
 
