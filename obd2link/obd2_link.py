@@ -49,23 +49,17 @@ class Obd2Link():
 
     def get_vin(self):
 
-        #setup to read 17 to 20 return on multiple lines
-        #example:
-        #0:000201315900
-        #1:00503832443400
-        #2:004D3533303900
+        #vin should 17 to 20 return on multiple lines
         self.conn.obd2_write(self.connection, 'ATS1')
         #Allow Long (>7 byte) messages
         self.conn.obd2_write(self.connection, 'ATAL')
-
 
         read = self.conn.obd2_read_mulit(self.connection)
 
         print read
 
-        ascii_read = converters.hex_to_ascii(read)
-
-        print ascii_read
+        #ascii_read = converters.hex_to_ascii(read)
+        #print ascii_read
 
     def get_data(self, property):
         self.open_close()
