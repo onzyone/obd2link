@@ -74,7 +74,7 @@ class Obd2Link():
             value = self.sensors.get(property).get(each)
 
             self.conn.obd2_write(self.connection, value)
-            time.sleep(.25)
+            time.sleep(.15)
             read = self.conn.obd2_read(self.connection)
             self.dh.update_dict(self.propertiy_dict, value, read)
 
