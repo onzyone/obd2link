@@ -61,23 +61,14 @@ class Obd2Link():
         #ask obd2 for vin
         time.sleep(1)
         self.conn.obd2_write(self.connection, '0902')
-        read = self.conn.obd2_read_raw(self.connection)
 
-        print read
-#        my_str = '\t'.join([line.strip() for line in read])
+        raw_read = self.conn.obd2_read_raw(self.connection)
 
-        # removing white spaces
-#        pattern = re.compile(r'\s+')
-#        sentence = re.sub(pattern, '', my_str)
+        hex_data = converters.raw_to_string(raw_read)
 
-#        print sentence
+        vin = converters.hex_to_ascii(hex_data)
 
-        data = [line.strip().split(':') for line in read.split('\n') if line.strip()]
-
-        print data
-
-        #ascii_read = converters.hex_to_ascii(read)
-        #print ascii_read
+        return vin
 
     def get_data(self, property):
         self.open_close()
@@ -169,13 +160,18 @@ class Obd2Link():
         lcd.set_lcd(message, 0, True)
 
 
-        self.get_vin()
-
-#        self.obd2_innitialize()
-
         now = time.time()
         message = 'epoc: {0}'.format(now)
         lcd.set_lcd(message, 8, False)
+
+        vin = self.get_vin()
+        folder_location = os.path.join(self.application_properties.get('output').get('data_output_folder'), vin)
+        self.ph.check_folder(folder_location)
+        file_location = os.path.join(folder_location, '{0}.pkl'.format(now))
+
+
+        self.obd2_innitialize()
+
 
 #        mode09 = self.get_data('mode09')
 #        print mode09
@@ -202,18 +198,7 @@ class Obd2Link():
             message = 'count is: {0}'.format(count)
             lcd.set_lcd(message, 24, False)
             self.dh.update_dict(self.temp_dict, 'sensors_data', sensors)
-            print self.temp_dict
-
-        #self.get_acc_axes()
-
-        #self.make_human()
-
-        #TODO folder will be vin
-        folder_location = os.path.join(self.application_properties.get('output').get('data_output_folder'), 'vin')
-        self.ph.check_folder(folder_location)
-        file_location = os.path.join(folder_location, '{0}.pkl'.format(now))
-        #self.ph.write_csv(sorted_temp_dict, file_location)
-        self.ph.write_pickle(self.temp_dict, file_location)
+            self.ph.write_pickle(self.temp_dict, file_location)
 
 
 if __name__ == '__main__':
