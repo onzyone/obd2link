@@ -51,9 +51,6 @@ class Obd2Link():
 
 
         print 'getting_vin'
-
-        #echo off
-        self.conn.obd2_write(self.connection, 'ATZ')
         #vin should 17 to 20 return on multiple lines
         self.conn.obd2_write(self.connection, 'ATL1')
         #headeres off
