@@ -56,8 +56,6 @@ class Obd2Link():
         self.conn.obd2_write(self.connection, 'ATL1')
         #headeres off
         self.conn.obd2_write(self.connection, 'ATH0')
-        #removes spaces
-        self.conn.obd2_write(self.connection, 'ATS0')
         #Allow Long (>7 byte) messages
         self.conn.obd2_write(self.connection, 'ATAL')
         #ask obd2 for vin
@@ -68,11 +66,15 @@ class Obd2Link():
         print read
         my_str = '\t'.join([line.strip() for line in read])
 
-
+        # removing white spaces
         pattern = re.compile(r'\s+')
         sentence = re.sub(pattern, '', my_str)
 
         print sentence
+
+        data = [line.strip().split(':') for line in sentence.split('\n') if line.strip()]
+
+        print data
 
         #ascii_read = converters.hex_to_ascii(read)
         #print ascii_read
