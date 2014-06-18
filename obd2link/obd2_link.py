@@ -61,9 +61,11 @@ class Obd2Link():
         self.conn.obd2_write(self.connection, 'ATAL')
         #ask obd2 for vin
         self.conn.obd2_write(self.connection, '0902')
-        read = self.conn.obd2_read_mulit(self.connection)
+        read = self.conn.obd2_read_raw(self.connection)
 
         print read
+        my_str = '\t'.join([line.strip() for line in read])
+        print my_str
 
         #ascii_read = converters.hex_to_ascii(read)
         #print ascii_read

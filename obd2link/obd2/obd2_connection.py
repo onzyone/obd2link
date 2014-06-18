@@ -101,7 +101,7 @@ class Obd2Connection():
             serial_connection.write(c)
         serial_connection.write("\r\n")
 
-    def obd2_read_mulit(self, serial_connection):
+    def obd2_read_raw(self, serial_connection):
 
         buffer = ""
 
