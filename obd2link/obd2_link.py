@@ -64,15 +64,15 @@ class Obd2Link():
         read = self.conn.obd2_read_raw(self.connection)
 
         print read
-        my_str = '\t'.join([line.strip() for line in read])
+#        my_str = '\t'.join([line.strip() for line in read])
 
         # removing white spaces
-        pattern = re.compile(r'\s+')
-        sentence = re.sub(pattern, '', my_str)
+#        pattern = re.compile(r'\s+')
+#        sentence = re.sub(pattern, '', my_str)
 
-        print sentence
+#        print sentence
 
-        data = [line.strip().split(':') for line in sentence.split('\n') if line.strip()]
+        data = [line.strip().split(':') for line in read.split('\n') if line.strip()]
 
         print data
 
