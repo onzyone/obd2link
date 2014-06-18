@@ -52,7 +52,11 @@ class Obd2Link():
 
         print 'getting_vin'
         #vin should 17 to 20 return on multiple lines
-        self.conn.obd2_write(self.connection, 'ATS1')
+        self.conn.obd2_write(self.connection, 'ATL1')
+        #headeres off
+        self.conn.obd2_write(self.connection, 'ATH0')
+        #removes spaces
+        self.conn.obd2_write(self.connection, 'ATS0')
         #Allow Long (>7 byte) messages
         self.conn.obd2_write(self.connection, 'ATAL')
         #ask obd2 for vin
