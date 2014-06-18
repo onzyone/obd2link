@@ -51,6 +51,9 @@ class Obd2Link():
 
 
         print 'getting_vin'
+
+        #echo off
+        self.conn.obd2_write(self.connection, 'ATZ')
         #vin should 17 to 20 return on multiple lines
         self.conn.obd2_write(self.connection, 'ATL1')
         #headeres off
@@ -65,7 +68,7 @@ class Obd2Link():
 
         print read
         my_str = '\t'.join([line.strip() for line in read])
-        print my_str
+        print my_str.replace(" ", "")
 
         #ascii_read = converters.hex_to_ascii(read)
         #print ascii_read
