@@ -1,6 +1,7 @@
 import time
 import os
 import logging
+import re
 
 import core.file_io as file_io
 import core.dict_helper as dict_helper
@@ -60,12 +61,18 @@ class Obd2Link():
         #Allow Long (>7 byte) messages
         self.conn.obd2_write(self.connection, 'ATAL')
         #ask obd2 for vin
+        time.sleep(1)
         self.conn.obd2_write(self.connection, '0902')
         read = self.conn.obd2_read_raw(self.connection)
 
         print read
         my_str = '\t'.join([line.strip() for line in read])
-        print my_str.replace(" ", "")
+
+
+        pattern = re.compile(r'\s+')
+        sentence = re.sub(pattern, '', my_str)
+
+        print sentence
 
         #ascii_read = converters.hex_to_ascii(read)
         #print ascii_read
