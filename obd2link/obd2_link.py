@@ -49,6 +49,8 @@ class Obd2Link():
 
     def get_vin(self):
 
+
+        print 'getting_vin'
         #vin should 17 to 20 return on multiple lines
         self.conn.obd2_write(self.connection, 'ATS1')
         #Allow Long (>7 byte) messages
@@ -153,14 +155,14 @@ class Obd2Link():
 
         self.get_vin()
 
-        self.obd2_innitialize()
+#        self.obd2_innitialize()
 
         now = time.time()
         message = 'epoc: {0}'.format(now)
         lcd.set_lcd(message, 8, False)
 
-        mode09 = self.get_data('mode09')
-        print mode09
+#        mode09 = self.get_data('mode09')
+#        print mode09
 
 
         # this will be put into a loop based on the sample_rate found
