@@ -1,3 +1,5 @@
+import re
+
 # used to do some sexy conversions
 
 
@@ -20,3 +22,9 @@ def raw_to_string(raw_read):
         if len(each) == 2:
             hex_data += each[1]
     return hex_data
+
+def strip_sapces(some_string):
+
+    pattern = re.compile(r'\s+')
+    some_string = re.sub(pattern, '', some_string)
+    return some_string

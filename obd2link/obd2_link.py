@@ -59,14 +59,12 @@ class Obd2Link():
         #Allow Long (>7 byte) messages
         self.conn.obd2_write(self.connection, 'ATAL')
         #ask obd2 for vin
-        time.sleep(1)
         self.conn.obd2_write(self.connection, '0902')
 
         raw_read = self.conn.obd2_read_raw(self.connection)
-
         hex_data = converters.raw_to_string(raw_read)
-
-        vin = converters.hex_to_ascii(hex_data)
+        spaceless_hex_data = converters.strip_sapces(hex_data)
+        vin = converters.hex_to_ascii(spaceless_hex_data)
 
         return vin
 
