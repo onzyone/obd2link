@@ -159,8 +159,6 @@ class Obd2Link():
         message = 'epoc: {0}'.format(now)
         lcd.set_lcd(message, 8, False)
 
-        self.get_obd2_version()
-
         mode09 = self.get_data('mode09')
         print mode09
 
