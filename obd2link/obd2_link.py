@@ -55,7 +55,8 @@ class Obd2Link():
         self.conn.obd2_write(self.connection, 'ATS1')
         #Allow Long (>7 byte) messages
         self.conn.obd2_write(self.connection, 'ATAL')
-
+        #ask obd2 for vin
+        self.conn.obd2_write(self.connection, '0902')
         read = self.conn.obd2_read_mulit(self.connection)
 
         print read
