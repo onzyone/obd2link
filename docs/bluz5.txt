@@ -1,0 +1,55 @@
+Bluetooth 4.0 LE on Raspberry Pi with Bluez 5.x
+By CARSON | Published: JANUARY 21, 2013
+Over the holiday I had a little time to fiddle with the Raspberry Pi I got earlier in the summer and I started wondering how hard it would be to get a Bluetooth LE adapter working. It turned out not to be as hard to get working as I thought it might be thanks to recently added support in the Bluez 5.x Bluetooth stack. What follows is the information you need to get things going.
+
+To start with I picked the IOGEAR Bluetooth 4.0 USB Micro Adapter (GBU521) that can be found on Amazon for just $13 since it looked like the chip it uses is decently supported with recent Linux kernels. The only issue I had is the size itself, if it didn't have a little nub on the end it would be too small to pull back out of the USB plug.
+
+
+The GBU521 seems to be recognized by older kernels but to get LE support go with the latest kernel you can find. For the RPi it is easy enough to get a very recently kernel using rpi-update. Currently it is 3.6.11 and that worked well for me. I also used a 3.5 kernel on a laptop that worked fine but you can't go any older than that.
+
+Once you have the correct kernel in place you need to grab the latest version of Bluez. Bluez is the official Bluetooth stack for Linux and the 5.x series has introduced Bluetooth LE support. It is still a work in progress but it does work. Grab the 5.1 version or later and uncompress/untar it somewhere on your RPi. Please note that Bluez 5.x requires a 3.5+ kernel to work correctly, this seems to be a sticking point that a lot of people hit.
+
+I am using the Raspbian distro found on Raspberry Pi downloads. Outside of the normal install needed to compile I had to install the following packages:
+
+apt-get install libusb-dev libdbus-1-dev libglib2.0-dev automake libudev-dev libical-dev libreadline-dev
+With those packages installed configure and make (note that I've disabled systemd support, it didn't seem to work for me and I didn't need it myself):
+
+###./configure –disable-systemd
+./configure --prefix=/usr --mandir=/usr/share/man --sysconfdir=/etc --localstatedir=/var --enable-experimental --with-systemdsystemunitdir=/lib/systemd/system --with-systemduserunitdir=/usr/lib/systemd
+
+make; make install
+
+Now you will have a number of binaries installed that will get you rolling. I'm not going to go into a lot of detail here about what all of the following commands do but I want to touch on each of them briefly so you know they are there. Assuming you have the Bluetooth adapter plugged in you should be able to run the following command and get details about it:
+
+hciconfig
+hci0:   Type: BR/EDR  Bus: USB
+        BD Address: 00:00:12:34:56:78  ACL MTU: 1021:8  SCO MTU: 64:1
+        DOWN
+        RX bytes:467 acl:0 sco:0 events:18 errors:0
+        TX bytes:317 acl:0 sco:0 commands:18 errors:0
+
+This shows that the device is in a down state. To bring it up you can issue the following command:
+
+hciconfig hci0 up
+hciconfig
+
+hci0:   Type: BR/EDR  Bus: USB
+        BD Address: 00:00:12:34:56:78  ACL MTU: 1021:8  SCO MTU: 64:1
+        UP RUNNING
+        RX bytes:467 acl:0 sco:0 events:18 errors:0
+        TX bytes:317 acl:0 sco:0 commands:18 errors:0
+
+Now if you know you have a Bluetooth LE peripheral sitting around advertising you can run the following command and you should see an address for that device show up:
+
+hcitool lescan
+LE Scan …
+12:88:FF:FF:11:99 touch
+12:88:FF:FF:11:99 (unknown)
+
+If you get to the point of wanting to let the RPi act as a peripheral you will need to know about the following command that will enable advertising on the adapter:
+
+hciconfig hci0 leadv 0
+Bluez also provides a deamon named bluetoothd (installed in /usr/local/libexc/bluetooth) that runs to take care of communicating with devices for you. It uses DBus to communicate with applications but at this point LE support hasn't been added. The best way to integrate with it if you want to write your own code is to use a plugin. I won't go into that here but you can see an example in the source (I also plan on releasing an example of my own that will work with an iOS app).
+
+Lastly remember you don't need to start off on the Raspberry Pi. Most of the above will work on a normal Linux system and it may be easier to start there to get it working and then move to the RPi once you are familiar with the setup.
+

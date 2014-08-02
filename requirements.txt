@@ -8,3 +8,4 @@ tornado==3.2.1
 cffi==0.8.1
 smbus-cffi==0.1
 psutil==2.1.1
+pybluez

@@ -1,5 +1,4 @@
 import serial
-import time
 import platform
 
 
@@ -8,8 +7,10 @@ class Obd2Connection():
         self.parity = serial.PARITY_NONE
         self.stopbits = serial.STOPBITS_ONE
         self.bytesize = serial.EIGHTBITS
-        self.rtscts = False
-        self.dsrdtr = False
+        #was False, testing
+        self.rtscts = True
+        #was False, testing
+        self.dsrdtr = True
         self.xonxoff = False
 
     def get_port(self):
@@ -59,7 +60,7 @@ class Obd2Connection():
 
         return available
 
-    def obd2_connection(self, *args, **kwargs):
+    def obd2_usb_connection(self, *args, **kwargs):
 
         #get ports
 #        port_names = self.get_port()
@@ -83,6 +84,22 @@ class Obd2Connection():
         )
 
         return self.serial_connection
+
+    def obd2_bluetooth_connection(self, **kwargs):
+
+        import bluetooth
+
+        self.bluetooth_mac = kwargs.pop('bluetooth_mac')
+        # Create the client socket
+        client_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+        bluetooth_connection = client_socket.connect((self.bluetooth_mac, 1))
+
+        return bluetooth_connection
+
+        #The linux command you can try is:
+        #rfcomm connect /dev/rfcomm0 XX:XX:XX:XX:XX:XX  1
+        #which means rfcomm connect <linux port> <MAC of the OBDLINK MX> <CHANNEL of the OBDLINK MX>
+
 
     def obd2_open(self, serial_connection):
         serial_connection.open()

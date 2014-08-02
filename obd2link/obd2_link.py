@@ -35,11 +35,23 @@ class Obd2Link():
 
     def get_connection(self):
 
+        #TODO make these pick up based on what is plugged into usb
+
         port = self.application_properties.get('input').get('port')
+        bluetooth_mac = self.application_properties.get('input').get('bluetooth_mac')
+
+
         baudrate = self.application_properties.get('input').get('baudrate')
 
         conn = obd2_connection.Obd2Connection()
-        connection = conn.obd2_connection(port=port, baudrate=baudrate)
+
+        if port is not None:
+            connection = conn.obd2_usb_connection(port=port, baudrate=baudrate)
+        elif bluetooth_mac is not None:
+            bluetooth_connection = conn.obd2_bluetooth_connection(bluetooth_mac=bluetooth_mac)
+            connection = conn.obd2_usb_connection(port=bluetooth_connection, baudrate=baudrate)
+        else:
+            print 'no connection made'
 
         return connection
 
@@ -50,8 +62,6 @@ class Obd2Link():
 
     def get_vin(self):
 
-
-        print 'getting_vin'
         #vin should 17 to 20 return on multiple lines
         self.conn.obd2_write(self.connection, 'ATL1')
         #headeres off
